@@ -13,6 +13,8 @@ import Utils
 
 bar side h i = rect $ anchor side h
 
+-- Use sample for real tests
+-- Use inProgress when working and it should fail
 spec = describe "Shapes" $ do
 
     describe "Rectangles" $ do
