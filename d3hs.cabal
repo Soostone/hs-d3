@@ -1,0 +1,55 @@
+Name:          d3hs
+Version:       0.1
+Synopsis:      A graphing library wrapping D3.js with JMacro
+Author:        Andrew Stein
+Maintainer:    steinlink@gmail.com
+Stability:     Experimental
+Category:      Graphing
+Build-type:    Simple
+Cabal-version: >=1.8
+
+Library
+  hs-source-dirs: src/hs/lib
+  Build-depends:
+    base                     ,
+    bytestring               ,
+    file-embed               == 0.0.5,
+    interpolatedstring-perl6 >= 0.9.0,
+    utf8-string              ,    
+    mtl                      >= 2.1 && <= 2.2,
+    jmacro                   >= 0.6.3 && <0.7,
+    process                  >= 1.1,
+    wl-pprint-text           == 1.1.0.0,
+    lens                     == 3.9.0.2,
+    directory                >= 1.1
+
+  ghc-options: 
+    -Wall -fwarn-tabs -funbox-strict-fields
+    -fno-warn-unused-do-bind -threaded
+
+  exposed-modules:  
+    Soostone.Graphing
+    Soostone.Graphing.Base
+    Soostone.Graphing.Charts
+    Soostone.Graphing.Render
+    Soostone.Graphing.Repl
+    Soostone.Graphing.Shapes
+    Soostone.Graphing.Utils
+
+Test-Suite spec
+  Type: exitcode-stdio-1.0
+  Hs-Source-Dirs: src/hs/test
+  Ghc-Options: -Wall -threaded -fbreak-on-exception
+  Main-Is: Spec.hs
+  Build-Depends:
+    base,
+    bytestring   == 0.10.0.2,
+    directory    == 1.2.0.1,
+    hashable     == 1.1.2.5,
+    hspec        >= 1.3,
+    process      == 1.1.0.2,
+    jmacro       == 0.6.8,
+    interpolatedstring-perl6 >= 0.9.0,
+    HUnit,
+    d3hs
+
