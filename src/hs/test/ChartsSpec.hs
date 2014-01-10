@@ -1,57 +1,111 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE ExtendedDefaultRules  #-}
+
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ChartsSpec where
 
 import Test.Hspec
 
-import Soostone.Graphing.Base
 import Soostone.Graphing.Charts
-import Soostone.Graphing.Shapes
-import Soostone.Graphing.Utils
 
 import Utils
 
+spec :: Spec
 spec = describe "Charts" $ do
 
     describe "Bar Graphs" $ do
 
-        sample "a simple graph" $
+        sample "a simple graph" 
 
-            barGraph [1.0, 0.2, 0.3]
+            [1.0, 0.2, 0.3]
 
-        sample "a large, but still simple bar graph" $
+            barGraph 
 
-            barGraph . take 50 . concat . repeat $
-                [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8]
+        sample "a large, but still simple bar graph" 
+
+            (take 50 . concat . repeat $
+                [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8])
+
+            barGraph
 
     describe "Stacked Bar Graphs" $ do
 
-        sample "a trivial stacked bar graph" $
+        sample "a trivial stacked bar graph" 
 
-            stackedBarGraph [
+            [
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8]
             ]
 
-        sample "a simple stacked bar graph" $
+            stackedBarGraph 
 
-            stackedBarGraph [
+        sample "a simple stacked bar graph" 
+
+            [
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8]
             ]
 
-        sample "a normal stacked bar graph" $
+            stackedBarGraph 
 
-            stackedBarGraph [
+        sample "a normal stacked bar graph"
+
+            [
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8]
             ]
 
-        sample "a complex stacked bar graph" $
+            stackedBarGraph
 
-            stackedBarGraph [
+        sample "a complex stacked bar graph" 
+
+            [
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
                 take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8]
             ]
+
+            stackedBarGraph
+
+        sample "a complex stacked bar graph with different number of elements" 
+
+            [
+                take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 40 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 20 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 2 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 14 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8]
+            ]
+
+            stackedBarGraph
+
+    describe "Grid layouts" $ do
+
+        sample "a trivial grid layout" 
+
+            (replicate 5 [
+                take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8]
+            ]) $
+
+            gridBarGraph 
+
+        sample "a non symmetrical grid layout" 
+
+            (fmap (uncurry take) . zip [5, 4, 4, 2, 5] . replicate 5 $ [
+                take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 40 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 30 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 10 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8],
+                take 50 . concat . repeat $ [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8]
+            ]) $
+
+            gridBarGraph 
+
+
+

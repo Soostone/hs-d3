@@ -1,0 +1,45 @@
+
+
+    <script src="../../../lib/js/d3.v2.min.js"></script>
+    <script> window.onload = (function()
+                 {
+                   var __target__;
+                   __target__ = d3.select("body").append("svg");
+                   __target__.attr("width", 640.0);
+                   __target__.attr("height", 480.0);
+                   var __target__;
+                   __target__ = __target__.append("g");
+                   __target__.attr("transform", ["scale(", 640, ",", 480, ")"].join(" "));
+                   var __cursor__;
+                   __cursor__ = [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6];
+                   var jmId_0;
+                   jmId_0 = __target__.selectAll("g");
+                   var jmId_2;
+                   jmId_2 = jmId_0.data(__cursor__).enter();
+                   var jmId_5;
+                   jmId_5 = jmId_2.append("g");
+                   jmId_5.attr("transform", (function(jmId_7, jmId_8)
+                                             {
+                                               return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_5.data()).length), ",", 1, ")", "translate(", jmId_8, ",", 0, ")"].join(" ");
+                                             }));
+                   var jmId_11;
+                   jmId_11 = jmId_5.append("rect");
+                   jmId_11.attr("x", 0.0);
+                   jmId_11.attr("y", 0.0);
+                   jmId_11.attr("width", 1.0);
+                   jmId_11.attr("height", 1.0);
+                   jmId_11.attr("fill", (function(jmId_13, jmId_14)
+                                         {
+                                           return ["#096975", "#7DB31B", "#CFCF0C", "#EA552D", "#DB2556"][(jmId_14 % 5)];
+                                         }));
+                   jmId_11.attr("y", (function(jmId_17, jmId_18)
+                                      {
+                                        return (1 - jmId_17);
+                                      }));
+                   jmId_11.attr("width", 1.0);
+                   jmId_11.attr("height", (function(jmId_21, jmId_22)
+                                           {
+                                             return jmId_21;
+                                           }));
+                 }); </script>
+

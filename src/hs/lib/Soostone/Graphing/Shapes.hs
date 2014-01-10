@@ -1,15 +1,18 @@
 ------------------------------------------------------------------------------
 
 -- | Holds D3 level primitives.
---   TODO breka me up as necessary!
+--   TODO break me up as necessary!
 
 ------------------------------------------------------------------------------
 
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE ExtendedDefaultRules  #-}
+
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
 module Soostone.Graphing.Shapes where
 
-import Text.InterpolatedString.Perl6
+import Language.Javascript.JMacro
 
 import Soostone.Graphing.Base
 
@@ -25,76 +28,75 @@ data Orientation = Horizontal | Vertical
 
 -- | Wraps a Graph in an SVG group.
 
-group :: Graph () -> Graph ()
-group = withTarget (node "g")
+group :: Graph a () -> Graph a ()
+group = append "g"
 
 -- | Wraps a Graph in an SVG rect.
 
-rect :: Graph () -> Graph ()
-rect inner = withTarget (node "rect") $ do
+rect :: Graph a () -> Graph a ()
+rect inner = append "rect" $ do
     defaultSize
     inner
 
-defaultSize :: Graph ()
+defaultSize :: Graph a ()
 defaultSize = do
-    attr "x" (0 :: Int)
-    attr "y" (0 :: Int)
-    attr "width" (1 :: Int)
-    attr "height" (1 :: Int)
+    attr "x" 0
+    attr "y" 0
+    attr "width" 1
+    attr "height" 1
 
 -- | Anchors the __target__ 
 
-anchor :: Anchor -> Double -> Graph ()
-anchor Bottom height = do
-    attr "y" (1 - height)
-    anchor Top height
+anchor :: Anchor -> Graph Double ()
+anchor Bottom = do
+    attr "y" $ Postfix [jmacroE| 1 - `(cursor)` |]
+    anchor Top
 
-anchor Top height = do
-    attr "width" (1 :: Int)
-    attr "height" height
+anchor Top = do
+    attr "width" 1
+    attr "height" $ Postfix cursor
 
-anchor RightSide height = do
-    attr "x" (1 - height)
-    anchor LeftSide height
+anchor RightSide = do
+    attr "x" $ Postfix [jmacroE| 1 - `(cursor)` |]
+    anchor LeftSide
 
-anchor LeftSide height = do
-    attr "width" height
-    attr "height" (1 :: Int)
+anchor LeftSide = do
+    attr "width" $ Postfix cursor
+    attr "height" 1
 
 -- | Given a list of `Graph`s, renders them all side-by-side
 
-split :: Orientation -> [Graph ()] -> Graph ()
-split ori xs =  
-    group . sequence_ . fmap wrap . zip xs $ idxs
-
-    where 
-        idxs :: [Int]
-        idxs = [0 ..]
-
-        width :: Double
-        width = 
-            1.0 / fromIntegral (length xs)
-
-        trans :: Int -> String
-        trans offset = case ori of
-            Vertical   -> [qq| scale($width, 1.0) translate($offset) |]
-            Horizontal -> [qq| scale(1.0, $width) translate(0, $offset) |]
-
-        wrap (rect', offset) = group $ do
-            rect'' <- extract rect'
-            attr "transform"  (trans offset)
-            insert rect''
-
--- | Pads a graph with some space
-
-pad :: Double -> Graph () -> Graph ()
-pad sp gr = group $ do
-    attr "transform" (scale 0.9) 
-    gr
+split :: Orientation -> Graph a () -> Graph [a] ()
+split ori graph =  
+    selectAll "g" $ enter $ append "g" $ do
+        attr "transform" size
+        graph
 
     where
-        scale :: Double -> String
-        scale x = [qq| scale($sp, $sp) translate({off x}, {off x}) |]
-        off x = (1.0 - x) / 2.0
+        size = case ori of
+            Vertical -> do
+                scale width 1
+                translate index 0
+            Horizontal -> do
+                scale 1 width
+                translate 0 index
+
+        width = [jmacroE| 
+            1 / (`(parent)`.datum() || `(target)`.data()).length 
+        |]
+
+-- | Arranges a 2D array as a grid, with proportional spacing.
+
+grid :: Graph a () -> Graph [[a]] ()
+grid = split Vertical . split Horizontal
+
+-- | Pads a graph with some space.
+
+pad :: Double -> Graph a () -> Graph a ()
+pad x graph = append "g" $ do
+    graph
+    attr "transform" $ Const $ do
+        translate (x / 2.0) (x / 2.0)
+        scale (1.0 - x) (1.0 - x)
 
 ------------------------------------------------------------------------------

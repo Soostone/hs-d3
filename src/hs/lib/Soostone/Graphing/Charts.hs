@@ -4,32 +4,48 @@
 
 ------------------------------------------------------------------------------
 
+{-# LANGUAGE QuasiQuotes #-}
+
 module Soostone.Graphing.Charts where
 
-import Text.InterpolatedString.Perl6
-
-import qualified Data.List as L
+import Language.Javascript.JMacro
 
 import Soostone.Graphing.Base
 import Soostone.Graphing.Shapes
-import Soostone.Graphing.Utils
 
 ------------------------------------------------------------------------------
 
-barGraph :: [Double] -> Graph ()
-barGraph heights =
-    split Vertical (bar `mapI` heights )
+-- | A simple bargraph, suitable for impressing your friends.
+
+barGraph :: Graph [Double] ()
+barGraph =
+    split Vertical $ rect $ do
+        attr "fill" toColor
+        anchor Bottom
 
     where
-        colors = L.cycle ["red", "green", "blue"]
-        bar h i = rect $ do
-            attr "fill" (colors !! i)
-            anchor Bottom h
+        toColor = Postfix [jmacroE|
+            `(colors)`[`(index)` % `(length colors)`]
+        |]
 
--- | A vertically stacked bar graph
+        colors = 
+            [ "#096975"
+            , "#7DB31B"
+            , "#CFCF0C"
+            , "#EA552D"
+            , "#DB2556" ]
 
-stackedBarGraph :: [[Double]] -> Graph ()
-stackedBarGraph xs = 
-    split Horizontal (fmap (pad 0.9 . barGraph) xs)
+-- | A vertically stacked bar graph.
+
+stackedBarGraph :: Graph [[Double]] ()
+stackedBarGraph = 
+    split Horizontal $ pad 0.1 barGraph
+
+-- | A grid of bar graphs.
+
+gridBarGraph :: Graph [[[Double]]] ()
+gridBarGraph = 
+    grid $ pad 0.1 barGraph
+
 
 ------------------------------------------------------------------------------

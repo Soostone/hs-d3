@@ -1,4 +1,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE ExtendedDefaultRules  #-}
+
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ShapesSpec where
@@ -7,38 +10,65 @@ import Test.Hspec
 
 import Soostone.Graphing.Base
 import Soostone.Graphing.Shapes
-import Soostone.Graphing.Utils
 
 import Utils
 
-bar side h i = rect $ anchor side h
+bar :: Anchor -> Graph Double ()
+bar side = rect $ anchor side
 
 -- Use sample for real tests
 -- Use inProgress when working and it should fail
+
+spec :: Spec
 spec = describe "Shapes" $ do
 
     describe "Rectangles" $ do
 
-        sample "a simple rectangle" $
+        sample "a simple rectangle" 
+
+            ([] :: [Int]) $
 
             rect $ return ()
 
-        sample "a colored rectangle" $
+        sample "a colored rectangle" 
+
+            ([] :: [Int]) $
 
             rect $ attr "fill" "red"
 
-    describe "Bar Graphs" $ do
+    describe "Pad" $
 
-        sample "a bar graph, anchored to the top" $
+        sample "a simple padding" 
 
-            split Vertical (bar Top `mapI` [1.0, 0.5, 0.25, 0.7, 0.9] )
+            ([] :: [Int]) $
 
-        sample "a horizontally oriented bar graph, anchored to the left" $
+            pad 0.5 $ rect $ return ()
 
-            split Horizontal (bar LeftSide `mapI` [1.0, 0.5, 0.25, 0.7, 0.9] )
+    describe "Split" $ do
 
-        sample "a horizontally oriented bar graph, anchored to the tight" $
+        sample "a bar graph, anchored to the top"
 
-            split Horizontal (bar RightSide `mapI` [1.0, 0.5, 0.25, 0.7, 0.9] )
+            [1.0, 0.5, 0.25, 0.7, 0.9] $
 
-  
+            split Vertical $ bar Top
+
+        sample "a horizontally oriented bar graph, anchored to the left" 
+
+            [1.0, 0.5, 0.25, 0.7, 0.9] $
+
+            split Horizontal (bar LeftSide)
+
+        sample "a horizontally oriented bar graph, anchored to the tight" 
+
+            [1.0, 0.5, 0.25, 0.7, 0.9] $
+
+            split Horizontal (bar RightSide)
+
+    describe "Grid" $
+
+        sample "a simple grid"
+
+            [[1.0, 0.5, 0.25, 0.7, 0.9], [0.5, 0.3, 0.25, 1.0, 0.4]] $
+
+            grid $ pad 0.1 $ bar Top
+

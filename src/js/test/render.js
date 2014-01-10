@@ -1,7 +1,7 @@
  var page = require('webpage').create();
  var system = require("system");
 
-page.open('test.html', function () {
-    page.render(system.args[1]);
+page.open(system.args[1], function () {
+    page.render(system.args[2]);
     phantom.exit();
 });
