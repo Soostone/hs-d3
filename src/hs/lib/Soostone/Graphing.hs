@@ -7,8 +7,7 @@
 
 module Soostone.Graphing(
     module Soostone.Graphing.Repl,
-    module Soostone.Graphing.Shapes,
-    module Soostone.Graphing.Charts,
+    module Soostone.Graphing.Chart,
     testGraph,
     testGraph2,
     testGraph3
@@ -17,14 +16,14 @@ module Soostone.Graphing(
 import qualified Data.List as L
 
 import Soostone.Graphing.Repl
-import Soostone.Graphing.Shapes
-import Soostone.Graphing.Charts
+import Soostone.Graphing.Chart
+import Soostone.Graphing.Theme
 
 ------------------------------------------------------------------------------
 
 testGraph :: IO ()
 testGraph = 
-    graph barGraph dat
+    graph dat (ThemeChart banaaniTheme barGraph)
 
     where
         dat :: [Double]
@@ -33,7 +32,7 @@ testGraph =
 
 testGraph2 :: IO ()
 testGraph2 = 
-    graph stackedBarGraph dat
+    graph dat (ThemeChart banaaniTheme stackedBarGraph)
 
     where
         dat :: [[Double]]
@@ -42,7 +41,7 @@ testGraph2 =
 
 testGraph3 :: IO ()
 testGraph3 =
-    graph stackedBarGraph dat
+    graph dat (ThemeChart banaaniTheme stackedBarGraph)
 
     where 
         dat :: [[Double]]

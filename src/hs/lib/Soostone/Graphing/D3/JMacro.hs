@@ -4,9 +4,9 @@
 
 ------------------------------------------------------------------------------
 
-{-# LANGUAGE GADTs                 #-}
+{-# LANGUAGE GADTs #-}
 
-module Soostone.Graphing.Base.JMacro where
+module Soostone.Graphing.D3.JMacro where
 
 import Language.Javascript.JMacro
 

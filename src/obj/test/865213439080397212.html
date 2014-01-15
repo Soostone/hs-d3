@@ -1,50 +1,63 @@
 
 
-    <script src="../../../lib/js/d3.v2.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
     <script> window.onload = (function()
                  {
-                   var __target__;
-                   __target__ = d3.select("body").append("svg");
-                   __target__.attr("width", 640.0);
-                   __target__.attr("height", 480.0);
-                   var __target__;
-                   __target__ = __target__.append("g");
-                   __target__.attr("transform", ["scale(", 640, ",", 480, ")"].join(" "));
                    var __cursor__;
                    __cursor__ = [[1.0, 0.5, 0.25, 0.7, 0.9], [0.5, 0.3, 0.25, 1.0, 0.4]];
-                   var jmId_0;
-                   jmId_0 = __target__.selectAll("g");
-                   var jmId_2;
-                   jmId_2 = jmId_0.data(__cursor__).enter();
-                   var jmId_5;
-                   jmId_5 = jmId_2.append("g");
-                   jmId_5.attr("transform", (function(jmId_7, jmId_8)
-                                             {
-                                               return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_5.data()).length), ",", 1, ")", "translate(", jmId_8, ",", 0, ")"].join(" ");
-                                             }));
-                   var jmId_11;
-                   jmId_11 = jmId_5.selectAll("g");
-                   var jmId_13;
-                   jmId_13 = jmId_11.data((function(jmId_15, jmId_16) { return jmId_15; })).enter();
-                   var jmId_20;
-                   jmId_20 = jmId_13.append("g");
-                   jmId_20.attr("transform", (function(jmId_22, jmId_23)
+                   var jmId_3 = d3.select("body");
+                   var jmId_5 = jmId_3.append("svg");
+                   jmId_5.attr("viewBox", "0 0 1 1");
+                   jmId_5.attr("preserveAspectRatio", "none");
+                   jmId_5.attr("width", "100%");
+                   jmId_5.attr("height", "100%");
+                   var jmId_7 = jmId_5.append("defs");
+                   var jmId_9 = jmId_5.append("rect");
+                   jmId_9.attr("x", 0);
+                   jmId_9.attr("y", 0);
+                   jmId_9.attr("width", 1);
+                   jmId_9.attr("height", 1);
+                   jmId_9.attr("fill", "white");
+                   var jmId_11 = jmId_5.append("g");
+                   jmId_11.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
+                   var jmId_13 = jmId_11.selectAll("g");
+                   var jmId_15 = jmId_13.data(__cursor__);
+                   var jmId_18 = jmId_15.enter();
+                   var jmId_21 = jmId_18.append("g");
+                   jmId_21.attr("transform", (function(jmId_23, jmId_24, jmId_25)
                                               {
-                                                return ["scale(", 1, ",", (1 / (d3.select(this.parentNode).datum() || jmId_20.data()).length), ")", "translate(", 0, ",", jmId_23, ")"].join(" ");
+                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_21.data()).length), ",", 1, ")", "translate(", jmId_24, ",", 0, ")"].join(" ");
                                               }));
-                   var jmId_26;
-                   jmId_26 = jmId_20.append("g");
-                   var jmId_28;
-                   jmId_28 = jmId_26.append("rect");
-                   jmId_28.attr("x", 0.0);
-                   jmId_28.attr("y", 0.0);
-                   jmId_28.attr("width", 1.0);
-                   jmId_28.attr("height", 1.0);
-                   jmId_28.attr("width", 1.0);
-                   jmId_28.attr("height", (function(jmId_30, jmId_31)
+                   var jmId_29 = jmId_21.selectAll("g");
+                   var jmId_31 = jmId_29.data((function(jmId_33, jmId_34, jmId_35)
                                            {
-                                             return jmId_30;
+                                             return jmId_33;
                                            }));
-                   jmId_26.attr("transform", ["translate(", 5.0e-2, ",", 5.0e-2, ")", "scale(", 0.9, ",", 0.9, ")"].join(" "));
+                   var jmId_40 = jmId_31.enter();
+                   var jmId_43 = jmId_40.append("g");
+                   jmId_43.attr("transform", (function(jmId_45, jmId_46, jmId_47)
+                                              {
+                                                return ["scale(", 1, ",", (1 / (d3.select(this.parentNode).datum() || jmId_43.data()).length), ")", "translate(", 0, ",", jmId_46, ")"].join(" ");
+                                              }));
+                   var jmId_51 = jmId_43.append("g");
+                   var jmId_53 = jmId_51.append("rect");
+                   jmId_53.attr("x", 0);
+                   jmId_53.attr("y", 0);
+                   jmId_53.attr("width", 1);
+                   jmId_53.attr("height", 1);
+                   jmId_53.attr("width", 1);
+                   jmId_53.attr("height", (function(jmId_55, jmId_56, jmId_57)
+                                           {
+                                             return jmId_55;
+                                           }));
+                   jmId_51.attr("transform", ["translate(", 5.0e-2, ",", 5.0e-2, ")", "scale(", 0.9, ",", 0.9, ")"].join(" "));
                  }); </script>
 

@@ -6,9 +6,10 @@
 
 {-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE MultiParamTypeClasses      #-}
 {-# LANGUAGE QuasiQuotes                #-}
 
-module Soostone.Graphing.Base.Transform(
+module Soostone.Graphing.D3.Transform(
     Transform(),
     rotate,
     scale,
@@ -19,7 +20,7 @@ import Control.Monad.State
 import Data.Monoid
 import Language.Javascript.JMacro
 
-import Soostone.Graphing.Base.Cursor
+import Soostone.Graphing.D3.Cursor
 
 ------------------------------------------------------------------------------
 
@@ -33,39 +34,39 @@ newtype Transform a =
     Transform (State [JExpr] a)
     deriving (Functor, Monad, MonadState [JExpr])
 
-instance ToCursor (Transform ()) where
-
-    toCursor = toCursor . Postfix . fromTrans
-
-instance ToCursor (Cursor (Transform ())) where
-
-    toCursor (Const f) =
-        toCursor . Const . fromTrans $ f
-
-    toCursor (Postfix f) =
-        toCursor . Postfix . fromTrans $ f
-
-    toCursor (Prefix f) =
-        toCursor . Prefix . fromTrans $ f
+instance ToCursor s (Transform ()) where
+    toCursor = toCursor . Postfix . toJExpr
 
 runTransform :: Transform () -> [JExpr]
 runTransform (Transform s) = execState s []
 
-fromTrans :: Transform () -> JExpr
-fromTrans x = [jmacroE| `(runTransform x)`.join(" ") |]
+instance ToJExpr (Transform ()) where
+    toJExpr x = [jmacroE| `(runTransform x)`.join(" ") |]
 
 jstr :: String -> JExpr
 jstr = ValExpr . JStr
 
 -- | Scales by (x, y)
 
-scale :: ToJExpr a => a -> a -> Transform ()
-scale x y = app [jstr "scale(", toJExpr x, jstr ",", toJExpr y, jstr")" ]
+scale :: (ToJExpr a, ToJExpr b) => a -> b -> Transform ()
+scale x y = app [
+        jstr "scale(",
+        toJExpr x,
+        jstr ",",
+        toJExpr y,
+        jstr")"
+    ]
 
 -- | Translates by (x, y)
 
-translate :: ToJExpr a => a -> a -> Transform ()
-translate x y = app [jstr "translate(", toJExpr x, jstr ",", toJExpr y, jstr")" ]
+translate :: (ToJExpr a, ToJExpr b) => a -> b -> Transform ()
+translate x y = app [
+        jstr "translate(",
+        toJExpr x,
+        jstr ",",
+        toJExpr y,
+        jstr")"
+    ]
 
 -- | Rotates by x
 

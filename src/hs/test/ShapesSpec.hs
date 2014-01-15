@@ -8,12 +8,13 @@ module ShapesSpec where
 
 import Test.Hspec
 
-import Soostone.Graphing.Base
-import Soostone.Graphing.Shapes
+import Soostone.Graphing.D3
+import Soostone.Graphing.Chart
+import Soostone.Graphing.Theme
 
 import Utils
 
-bar :: Anchor -> Graph Double ()
+bar :: Anchor -> Chart Double ()
 bar side = rect $ anchor side
 
 -- Use sample for real tests
@@ -28,13 +29,13 @@ spec = describe "Shapes" $ do
 
             ([] :: [Int]) $
 
-            rect $ return ()
+            ThemeChart def $ rect $ return ()
 
         sample "a colored rectangle" 
 
             ([] :: [Int]) $
 
-            rect $ attr "fill" "red"
+            ThemeChart def $ rect $ attr "fill" "red"
 
     describe "Pad" $
 
@@ -42,7 +43,7 @@ spec = describe "Shapes" $ do
 
             ([] :: [Int]) $
 
-            pad 0.5 $ rect $ return ()
+            ThemeChart def $ pad 0.5 $ rect $ return ()
 
     describe "Split" $ do
 
@@ -50,19 +51,19 @@ spec = describe "Shapes" $ do
 
             [1.0, 0.5, 0.25, 0.7, 0.9] $
 
-            split Vertical $ bar Top
+            ThemeChart def $ splitVertical $ bar Top
 
         sample "a horizontally oriented bar graph, anchored to the left" 
 
             [1.0, 0.5, 0.25, 0.7, 0.9] $
 
-            split Horizontal (bar LeftSide)
+            ThemeChart def $ splitHorizontal (bar LeftSide)
 
         sample "a horizontally oriented bar graph, anchored to the tight" 
 
             [1.0, 0.5, 0.25, 0.7, 0.9] $
 
-            split Horizontal (bar RightSide)
+            ThemeChart def $ splitHorizontal (bar RightSide)
 
     describe "Grid" $
 
@@ -70,5 +71,5 @@ spec = describe "Shapes" $ do
 
             [[1.0, 0.5, 0.25, 0.7, 0.9], [0.5, 0.3, 0.25, 1.0, 0.4]] $
 
-            grid $ pad 0.1 $ bar Top
+            ThemeChart def $ grid $ pad 0.1 $ bar Top
 

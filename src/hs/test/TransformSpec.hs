@@ -1,17 +1,31 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE ExtendedDefaultRules  #-}
 
-{-# OPTIONS_GHC -fno-warn-type-defaults #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
 module TransformSpec where
 
 import Test.Hspec
 
-import Soostone.Graphing.Base
-import Soostone.Graphing.Shapes
+import Soostone.Graphing.D3
 
 import Utils
+
+testRect :: Transform () -> GraphT () a ()
+testRect tr = select "body" $ append "svg" $ do
+    attr "width" (640 :: Integer)
+    attr "height" (480 :: Integer)
+
+    append "rect" $ do
+        attr "x" (0 :: Integer)
+        attr "y" (0 :: Integer)
+        attr "width" (100 :: Integer)
+        attr "height" (100 :: Integer)
+        attr "fill" "black"
+        attr "transform" tr
+
+empty :: [Integer]
+empty = []
 
 spec :: Spec
 spec = describe "Shapes" $ do
@@ -20,15 +34,15 @@ spec = describe "Shapes" $ do
 
         sample "a simple scale" 
 
-            ([] :: [Int]) $
+            empty $
 
-            rect $ attr "transform" $ scale 0.5 0.5
+            testRect $ scale 0.5 0.5
 
         sample "a complex scale" 
 
-            ([] :: [Int]) $
+            empty $
 
-            rect $ attr "transform" $ do
+            testRect $ do
                 scale 0.5 0.1
                 scale 2.0 10
 
@@ -36,27 +50,27 @@ spec = describe "Shapes" $ do
 
         sample "a simple translate" 
 
-            ([] :: [Int]) $
+            empty $
 
-            rect $ attr "transform" $ translate 0.5 0.5
+            testRect $ translate 300 300
 
         sample "a complex translate" 
 
-            ([] :: [Int]) $
+            empty $
 
-            rect $ attr "transform" $ do
-                translate 0.5 0.1
-                translate (-0.5) (-0.1)
+            testRect $ do
+                translate 300 300
+                translate (-300) (-300)
 
     describe "Compund transforms" $
 
         sample "a compound transform" 
 
-            ([] :: [Int]) $
+            empty $
 
-            rect $ attr "transform" $ do
+            testRect $ do
                 scale 0.5 0.5
-                translate 0.5 0.5
+                translate 300 300
                 rotate 20
 
 

@@ -1,25 +1,39 @@
 
 
-    <script src="../../../lib/js/d3.v2.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
     <script> window.onload = (function()
                  {
-                   var __target__;
-                   __target__ = d3.select("body").append("svg");
-                   __target__.attr("width", 640.0);
-                   __target__.attr("height", 480.0);
-                   var __target__;
-                   __target__ = __target__.append("g");
-                   __target__.attr("transform", ["scale(", 640, ",", 480, ")"].join(" "));
                    var __cursor__;
                    __cursor__ = [];
-                   var jmId_0;
-                   jmId_0 = __target__.append("g");
-                   var jmId_2;
-                   jmId_2 = jmId_0.append("rect");
-                   jmId_2.attr("x", 0.0);
-                   jmId_2.attr("y", 0.0);
-                   jmId_2.attr("width", 1.0);
-                   jmId_2.attr("height", 1.0);
-                   jmId_0.attr("transform", ["translate(", 0.25, ",", 0.25, ")", "scale(", 0.5, ",", 0.5, ")"].join(" "));
+                   var jmId_3 = d3.select("body");
+                   var jmId_5 = jmId_3.append("svg");
+                   jmId_5.attr("viewBox", "0 0 1 1");
+                   jmId_5.attr("preserveAspectRatio", "none");
+                   jmId_5.attr("width", "100%");
+                   jmId_5.attr("height", "100%");
+                   var jmId_7 = jmId_5.append("defs");
+                   var jmId_9 = jmId_5.append("rect");
+                   jmId_9.attr("x", 0);
+                   jmId_9.attr("y", 0);
+                   jmId_9.attr("width", 1);
+                   jmId_9.attr("height", 1);
+                   jmId_9.attr("fill", "white");
+                   var jmId_11 = jmId_5.append("g");
+                   jmId_11.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
+                   var jmId_13 = jmId_11.append("g");
+                   var jmId_15 = jmId_13.append("rect");
+                   jmId_15.attr("x", 0);
+                   jmId_15.attr("y", 0);
+                   jmId_15.attr("width", 1);
+                   jmId_15.attr("height", 1);
+                   jmId_13.attr("transform", ["translate(", 0.25, ",", 0.25, ")", "scale(", 0.5, ",", 0.5, ")"].join(" "));
                  }); </script>
 

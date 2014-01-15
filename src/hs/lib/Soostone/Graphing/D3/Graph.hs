@@ -5,20 +5,15 @@
 
 ------------------------------------------------------------------------------
 
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE GADTs                 #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving                 #-}
-{-# LANGUAGE QuasiQuotes           #-}
-{-# LANGUAGE RankNTypes            #-}
-{-# LANGUAGE TemplateHaskell       #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
-{-# LANGUAGE UndecidableInstances  #-}
+{-# LANGUAGE DeriveFunctor              #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE QuasiQuotes                #-}
+{-# LANGUAGE TemplateHaskell            #-}
 
-{-# OPTIONS_GHC -fno-warn-orphans       #-}
-
-module Soostone.Graphing.Base.Graph where
+module Soostone.Graphing.D3.Graph where
 
 import Control.Lens hiding (index, transform)
+
 import Control.Monad.State
 import Data.Monoid
 import Language.Javascript.JMacro
@@ -27,38 +22,42 @@ import Language.Javascript.JMacro
 
 -- | State record for use in the `Graph` monad.
 
-data GraphState = GraphState {
-    _jstat  :: JStat,
-    _jCursor :: JExpr -> JExpr
-}
+data GraphState s = GraphState {
+    _jstat   :: JStat,
+    _jCursor :: JExpr -> JExpr,
+    _userState :: s
+} deriving (Functor)
 
 makeLenses ''GraphState
 
 -- | Convenience method exposes a default GraphState for bootstraping
 
-emptyState :: GraphState
-emptyState = GraphState {
-    _jstat  = mempty,
-    _jCursor = id
+emptyState :: s -> GraphState s
+emptyState s = GraphState {
+    _jstat = mempty,
+    _jCursor = id,
+    _userState = s
 }
 
 -- | The core data structure representing a graph computation.
 
-newtype Graph a b =
-    Graph (State GraphState b) 
-    deriving (Monad, Functor, MonadState GraphState)
+newtype GraphT s a b =
+    Graph (State (GraphState s) b)
+    deriving (Monad, Functor, MonadState (GraphState s))
 
-runGraph :: Graph a b -> GraphState -> GraphState
+type Graph = GraphT ()
+
+runGraph :: GraphT s a b -> GraphState s -> GraphState s
 runGraph (Graph s) = execState s
 
-fanout :: Graph a () -> Graph [a] ()
+fanout :: GraphT s a () -> GraphT s [a] ()
 fanout = modify . runGraph
 
 -- | Given a `Graph`, extracts the `JStat` that this Graph would have
 --   rendered.  Useful for compositional tools.
 --   TODO there is probably a better way to do this.
 
-extract :: Graph a () -> Graph a JStat
+extract :: GraphT s a () -> GraphT s a JStat
 extract gr = do
     oldSt <- get
     clear
@@ -70,23 +69,23 @@ extract gr = do
 -- | The compliment to extract, `insert` appends a snippet of `JStat`
 --   to the state of the current `Graph`.
 
-insert :: JStat -> Graph a ()
+insert :: JStat -> GraphT s a ()
 insert = (jstat <>=)
 
 -- | Clears the current JStat - for internal user only.
 
-clear :: Graph a ()
+clear :: GraphT s a ()
 clear = jstat .= mempty
 
 -- | Convenience method for target
 
-setTarget :: ToJExpr a => a -> Graph b ()
+setTarget :: ToJExpr a => a -> GraphT s b ()
 setTarget x = insert [jmacro|
     var !__target__ = `(x)`;
 |]
 
-setData :: ToJExpr a => a -> Graph a ()
-setData x = insert [jmacro| 
+setData :: ToJExpr a => a -> GraphT s a ()
+setData x = insert [jmacro|
     var !__cursor__ = `(x)`;
 |]
 

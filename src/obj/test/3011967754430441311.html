@@ -1,0 +1,61 @@
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
+    <script> window.onload = (function()
+                 {
+                   var __cursor__;
+                   __cursor__ = [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6];
+                   var jmId_3 = d3.select("body");
+                   var jmId_5 = jmId_3.append("svg");
+                   jmId_5.attr("viewBox", "0 0 1 1");
+                   jmId_5.attr("preserveAspectRatio", "none");
+                   jmId_5.attr("width", "100%");
+                   jmId_5.attr("height", "100%");
+                   var jmId_7 = jmId_5.append("defs");
+                   var jmId_9 = jmId_5.append("rect");
+                   jmId_9.attr("x", 0);
+                   jmId_9.attr("y", 0);
+                   jmId_9.attr("width", 1);
+                   jmId_9.attr("height", 1);
+                   jmId_9.attr("fill", "LightBlue");
+                   var jmId_11 = jmId_5.append("g");
+                   jmId_11.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
+                   var jmId_13 = jmId_11.selectAll("g");
+                   var jmId_15 = jmId_13.data(__cursor__);
+                   var jmId_18 = jmId_15.enter();
+                   var jmId_21 = jmId_18.append("g");
+                   jmId_21.attr("transform", (function(jmId_23, jmId_24, jmId_25)
+                                              {
+                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_21.data()).length), ",", 1, ")", "translate(", jmId_24, ",", 0, ")"].join(" ");
+                                              }));
+                   var jmId_29 = jmId_21.append("rect");
+                   jmId_29.attr("x", 0);
+                   jmId_29.attr("y", 0);
+                   jmId_29.attr("width", 1);
+                   jmId_29.attr("height", 1);
+                   jmId_29.attr("fill", (function(jmId_31, jmId_32, jmId_33)
+                                         {
+                                           return ["#096975", "#7DB31B", "#CFCF0C", "#EA552D", "#DB2556"][(jmId_33 % 5)];
+                                         }));
+                   jmId_29.attr("stroke", "#000000");
+                   jmId_29.attr("stroke-width", 1);
+                   jmId_29.attr("vector-effect", "non-scaling-stroke");
+                   jmId_29.attr("y", (function(jmId_37, jmId_38, jmId_39)
+                                      {
+                                        return (1 - jmId_37);
+                                      }));
+                   jmId_29.attr("width", 1);
+                   jmId_29.attr("height", (function(jmId_43, jmId_44, jmId_45)
+                                           {
+                                             return jmId_43;
+                                           }));
+                 }); </script>
+
