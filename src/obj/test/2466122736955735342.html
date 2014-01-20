@@ -7,6 +7,22 @@
             padding: 0;
             margin: 0;
         }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
     </style>
 
     <script> window.onload = (function()
@@ -113,40 +129,58 @@
                                                 return ["scale(", 1, ",", (1 / (d3.select(this.parentNode).datum() || jmId_51.data()).length), ")", "translate(", 0, ",", jmId_54, ")"].join(" ");
                                               }));
                    var jmId_59 = jmId_51.append("g");
-                   var jmId_61 = jmId_59.selectAll("g");
-                   var jmId_63 = jmId_61.data((function(jmId_65, jmId_66, jmId_67)
+                   var jmId_61 = jmId_59.append("g");
+                   jmId_61.attr("class", "axis");
+                   var jmId_63 = jmId_61.selectAll("line.y");
+                   var jmId_65 = jmId_63.data(d3.scale.linear().ticks(10)).enter();
+                   var jmId_68 = jmId_65.append("text");
+                   jmId_68.attr("x", 0);
+                   jmId_68.attr("y", d3.scale.linear().domain([-1.0e-2, 0.99]).range([1, 0]));
+                   jmId_68.text(d3.scale.linear().domain([0, 1]).range([1, 0]).tickFormat(",.1f"));
+                   var jmId_70 = jmId_65.append("line");
+                   jmId_70.attr("class", "y");
+                   jmId_70.attr("x2", 1);
+                   jmId_70.attr("x1", 0);
+                   jmId_70.attr("y1", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_70.attr("y2", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_70.attr("stroke", "grey");
+                   jmId_70.attr("stroke-width", "0.001");
+                   var jmId_72 = jmId_59.append("g");
+                   jmId_72.attr("transform", ["translate(", 5.0e-2, ",", 0.0, ")", "scale(", 0.95, ",", 1.0, ")"].join(" "));
+                   var jmId_74 = jmId_72.selectAll("g");
+                   var jmId_76 = jmId_74.data((function(jmId_78, jmId_79, jmId_80)
                                            {
-                                             return jmId_65;
+                                             return jmId_78;
                                            }));
-                   var jmId_72 = jmId_63.enter();
-                   var jmId_75 = jmId_72.append("g");
-                   jmId_75.attr("transform", (function(jmId_77, jmId_78, jmId_79)
+                   var jmId_85 = jmId_76.enter();
+                   var jmId_88 = jmId_85.append("g");
+                   jmId_88.attr("transform", (function(jmId_90, jmId_91, jmId_92)
                                               {
-                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_75.data()).length), ",", 1, ")", "translate(", jmId_78, ",", 0, ")"].join(" ");
+                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_88.data()).length), ",", 1, ")", "translate(", jmId_91, ",", 0, ")"].join(" ");
                                               }));
-                   var jmId_83 = jmId_75.append("rect");
-                   jmId_83.attr("x", 0);
-                   jmId_83.attr("y", 0);
-                   jmId_83.attr("width", 1);
-                   jmId_83.attr("height", 1);
-                   jmId_83.attr("fill", (function(jmId_85, jmId_86, jmId_87)
+                   var jmId_96 = jmId_88.append("rect");
+                   jmId_96.attr("x", 0);
+                   jmId_96.attr("y", 0);
+                   jmId_96.attr("width", 1);
+                   jmId_96.attr("height", 1);
+                   jmId_96.attr("fill", (function(jmId_98, jmId_99, jmId_100)
                                          {
-                                           return ["url(#first)", "url(#second)", "url(#third)"][(jmId_86 % 3)];
+                                           return ["url(#first)", "url(#second)", "url(#third)"][(jmId_99 % 3)];
                                          }));
-                   jmId_83.attr("stroke", (function(jmId_91, jmId_92, jmId_93)
+                   jmId_96.attr("stroke", (function(jmId_104, jmId_105, jmId_106)
                                            {
-                                             return ["rgb(131,162,153)", "rgb(200,88,58)", "rgb(171,41,46)"][(jmId_92 % 3)];
+                                             return ["rgb(131,162,153)", "rgb(200,88,58)", "rgb(171,41,46)"][(jmId_105 % 3)];
                                            }));
-                   jmId_83.attr("stroke-width", 1);
-                   jmId_83.attr("vector-effect", "non-scaling-stroke");
-                   jmId_83.attr("y", (function(jmId_97, jmId_98, jmId_99)
+                   jmId_96.attr("stroke-width", 1);
+                   jmId_96.attr("vector-effect", "non-scaling-stroke");
+                   jmId_96.attr("y", (function(jmId_110, jmId_111, jmId_112)
                                       {
-                                        return (1 - jmId_97);
+                                        return (1 - jmId_110);
                                       }));
-                   jmId_83.attr("width", 1);
-                   jmId_83.attr("height", (function(jmId_103, jmId_104, jmId_105)
+                   jmId_96.attr("width", 1);
+                   jmId_96.attr("height", (function(jmId_116, jmId_117, jmId_118)
                                            {
-                                             return jmId_103;
+                                             return jmId_116;
                                            }));
                    jmId_59.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
                  }); </script>

@@ -98,6 +98,9 @@ target = jsv "__target__"
 index :: JExpr
 index = jsv "__index__"
 
+group :: JExpr
+group = jsv "__group__"
+
 parent :: JExpr
 parent = [jmacroE| d3.select(this.parentNode) |]
 

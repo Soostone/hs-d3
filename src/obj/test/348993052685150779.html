@@ -7,6 +7,22 @@
             padding: 0;
             margin: 0;
         }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
     </style>
 
     <script> window.onload = (function()
@@ -55,37 +71,55 @@
                                                 return ["scale(", 1, ",", (1 / (d3.select(this.parentNode).datum() || jmId_43.data()).length), ")", "translate(", 0, ",", jmId_46, ")"].join(" ");
                                               }));
                    var jmId_51 = jmId_43.append("g");
-                   var jmId_53 = jmId_51.selectAll("g");
-                   var jmId_55 = jmId_53.data((function(jmId_57, jmId_58, jmId_59)
+                   var jmId_53 = jmId_51.append("g");
+                   jmId_53.attr("class", "axis");
+                   var jmId_55 = jmId_53.selectAll("line.y");
+                   var jmId_57 = jmId_55.data(d3.scale.linear().ticks(10)).enter();
+                   var jmId_60 = jmId_57.append("text");
+                   jmId_60.attr("x", 0);
+                   jmId_60.attr("y", d3.scale.linear().domain([-1.0e-2, 0.99]).range([1, 0]));
+                   jmId_60.text(d3.scale.linear().domain([0, 1]).range([1, 0]).tickFormat(",.1f"));
+                   var jmId_62 = jmId_57.append("line");
+                   jmId_62.attr("class", "y");
+                   jmId_62.attr("x2", 1);
+                   jmId_62.attr("x1", 0);
+                   jmId_62.attr("y1", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_62.attr("y2", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_62.attr("stroke", "grey");
+                   jmId_62.attr("stroke-width", "0.001");
+                   var jmId_64 = jmId_51.append("g");
+                   jmId_64.attr("transform", ["translate(", 5.0e-2, ",", 0.0, ")", "scale(", 0.95, ",", 1.0, ")"].join(" "));
+                   var jmId_66 = jmId_64.selectAll("g");
+                   var jmId_68 = jmId_66.data((function(jmId_70, jmId_71, jmId_72)
                                            {
-                                             return jmId_57;
+                                             return jmId_70;
                                            }));
-                   var jmId_64 = jmId_55.enter();
-                   var jmId_67 = jmId_64.append("g");
-                   jmId_67.attr("transform", (function(jmId_69, jmId_70, jmId_71)
+                   var jmId_77 = jmId_68.enter();
+                   var jmId_80 = jmId_77.append("g");
+                   jmId_80.attr("transform", (function(jmId_82, jmId_83, jmId_84)
                                               {
-                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_67.data()).length), ",", 1, ")", "translate(", jmId_70, ",", 0, ")"].join(" ");
+                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_80.data()).length), ",", 1, ")", "translate(", jmId_83, ",", 0, ")"].join(" ");
                                               }));
-                   var jmId_75 = jmId_67.append("rect");
-                   jmId_75.attr("x", 0);
-                   jmId_75.attr("y", 0);
-                   jmId_75.attr("width", 1);
-                   jmId_75.attr("height", 1);
-                   jmId_75.attr("fill", (function(jmId_77, jmId_78, jmId_79)
+                   var jmId_88 = jmId_80.append("rect");
+                   jmId_88.attr("x", 0);
+                   jmId_88.attr("y", 0);
+                   jmId_88.attr("width", 1);
+                   jmId_88.attr("height", 1);
+                   jmId_88.attr("fill", (function(jmId_90, jmId_91, jmId_92)
                                          {
-                                           return ["#096975", "#7DB31B", "#CFCF0C", "#EA552D", "#DB2556"][(jmId_79 % 5)];
+                                           return ["#096975", "#7DB31B", "#CFCF0C", "#EA552D", "#DB2556"][(jmId_92 % 5)];
                                          }));
-                   jmId_75.attr("stroke", "#000000");
-                   jmId_75.attr("stroke-width", 1);
-                   jmId_75.attr("vector-effect", "non-scaling-stroke");
-                   jmId_75.attr("y", (function(jmId_83, jmId_84, jmId_85)
+                   jmId_88.attr("stroke", "#000000");
+                   jmId_88.attr("stroke-width", 1);
+                   jmId_88.attr("vector-effect", "non-scaling-stroke");
+                   jmId_88.attr("y", (function(jmId_96, jmId_97, jmId_98)
                                       {
-                                        return (1 - jmId_83);
+                                        return (1 - jmId_96);
                                       }));
-                   jmId_75.attr("width", 1);
-                   jmId_75.attr("height", (function(jmId_89, jmId_90, jmId_91)
+                   jmId_88.attr("width", 1);
+                   jmId_88.attr("height", (function(jmId_102, jmId_103, jmId_104)
                                            {
-                                             return jmId_89;
+                                             return jmId_102;
                                            }));
                    jmId_51.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
                  }); </script>

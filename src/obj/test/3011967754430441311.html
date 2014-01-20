@@ -7,6 +7,22 @@
             padding: 0;
             margin: 0;
         }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
     </style>
 
     <script> window.onload = (function()
@@ -28,34 +44,52 @@
                    jmId_9.attr("fill", "LightBlue");
                    var jmId_11 = jmId_5.append("g");
                    jmId_11.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
-                   var jmId_13 = jmId_11.selectAll("g");
-                   var jmId_15 = jmId_13.data(__cursor__);
-                   var jmId_18 = jmId_15.enter();
-                   var jmId_21 = jmId_18.append("g");
-                   jmId_21.attr("transform", (function(jmId_23, jmId_24, jmId_25)
+                   var jmId_13 = jmId_11.append("g");
+                   jmId_13.attr("class", "axis");
+                   var jmId_15 = jmId_13.selectAll("line.y");
+                   var jmId_17 = jmId_15.data(d3.scale.linear().ticks(10)).enter();
+                   var jmId_20 = jmId_17.append("text");
+                   jmId_20.attr("x", 0);
+                   jmId_20.attr("y", d3.scale.linear().domain([-1.0e-2, 0.99]).range([1, 0]));
+                   jmId_20.text(d3.scale.linear().domain([0, 1]).range([1, 0]).tickFormat(",.1f"));
+                   var jmId_22 = jmId_17.append("line");
+                   jmId_22.attr("class", "y");
+                   jmId_22.attr("x2", 1);
+                   jmId_22.attr("x1", 0);
+                   jmId_22.attr("y1", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_22.attr("y2", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_22.attr("stroke", "grey");
+                   jmId_22.attr("stroke-width", "0.001");
+                   var jmId_24 = jmId_11.append("g");
+                   jmId_24.attr("transform", ["translate(", 5.0e-2, ",", 0.0, ")", "scale(", 0.95, ",", 1.0, ")"].join(" "));
+                   var jmId_26 = jmId_24.selectAll("g");
+                   var jmId_28 = jmId_26.data(__cursor__);
+                   var jmId_31 = jmId_28.enter();
+                   var jmId_34 = jmId_31.append("g");
+                   jmId_34.attr("transform", (function(jmId_36, jmId_37, jmId_38)
                                               {
-                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_21.data()).length), ",", 1, ")", "translate(", jmId_24, ",", 0, ")"].join(" ");
+                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_34.data()).length), ",", 1, ")", "translate(", jmId_37, ",", 0, ")"].join(" ");
                                               }));
-                   var jmId_29 = jmId_21.append("rect");
-                   jmId_29.attr("x", 0);
-                   jmId_29.attr("y", 0);
-                   jmId_29.attr("width", 1);
-                   jmId_29.attr("height", 1);
-                   jmId_29.attr("fill", (function(jmId_31, jmId_32, jmId_33)
+                   var jmId_42 = jmId_34.append("rect");
+                   jmId_42.attr("x", 0);
+                   jmId_42.attr("y", 0);
+                   jmId_42.attr("width", 1);
+                   jmId_42.attr("height", 1);
+                   jmId_42.attr("fill", (function(jmId_44, jmId_45, jmId_46)
                                          {
-                                           return ["#096975", "#7DB31B", "#CFCF0C", "#EA552D", "#DB2556"][(jmId_33 % 5)];
+                                           return ["#096975", "#7DB31B", "#CFCF0C", "#EA552D", "#DB2556"][(jmId_46 % 5)];
                                          }));
-                   jmId_29.attr("stroke", "#000000");
-                   jmId_29.attr("stroke-width", 1);
-                   jmId_29.attr("vector-effect", "non-scaling-stroke");
-                   jmId_29.attr("y", (function(jmId_37, jmId_38, jmId_39)
+                   jmId_42.attr("stroke", "#000000");
+                   jmId_42.attr("stroke-width", 1);
+                   jmId_42.attr("vector-effect", "non-scaling-stroke");
+                   jmId_42.attr("y", (function(jmId_50, jmId_51, jmId_52)
                                       {
-                                        return (1 - jmId_37);
+                                        return (1 - jmId_50);
                                       }));
-                   jmId_29.attr("width", 1);
-                   jmId_29.attr("height", (function(jmId_43, jmId_44, jmId_45)
+                   jmId_42.attr("width", 1);
+                   jmId_42.attr("height", (function(jmId_56, jmId_57, jmId_58)
                                            {
-                                             return jmId_43;
+                                             return jmId_56;
                                            }));
                  }); </script>
 

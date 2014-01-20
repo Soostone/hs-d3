@@ -3,8 +3,9 @@
 -- | Layout primitives.
 
 ------------------------------------------------------------------------------
+
 {-# LANGUAGE ExtendedDefaultRules #-}
-{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE QuasiQuotes          #-}
 
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
@@ -12,6 +13,7 @@ module Soostone.Graphing.Chart.Layout where
 
 import Language.Javascript.JMacro
 
+import Soostone.Graphing.Chart.Base
 import Soostone.Graphing.D3
 
 ------------------------------------------------------------------------------
@@ -22,21 +24,21 @@ data Anchor = Top | RightSide | Bottom | LeftSide
 
 -- | Anchors the __target__
 
-anchor :: Anchor -> GraphT s a ()
+anchor :: Anchor -> Chart a ()
 anchor Bottom = do
-    attr "y" $ Postfix $ 1 - cursor
+    attr "y" $ Post $ 1 - cursor
     anchor Top
 
 anchor Top = do
     attr "width" 1
-    attr "height" $ Postfix cursor
+    attr "height" $ Post cursor
 
 anchor RightSide = do
-    attr "x" $ Postfix $ 1 - cursor
+    attr "x" $ Post $ 1 - cursor
     anchor LeftSide
 
 anchor LeftSide = do
-    attr "width" $ Postfix cursor
+    attr "width" $ Post cursor
     attr "height" 1
 
 -- | Given a list of `Graph`s, renders them all side-by-side

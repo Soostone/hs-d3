@@ -7,6 +7,22 @@
             padding: 0;
             margin: 0;
         }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
     </style>
 
     <script> window.onload = (function()
@@ -130,40 +146,58 @@
                                                 return ["scale(", 1, ",", (1 / (d3.select(this.parentNode).datum() || jmId_73.data()).length), ")", "translate(", 0, ",", jmId_76, ")"].join(" ");
                                               }));
                    var jmId_81 = jmId_73.append("g");
-                   var jmId_83 = jmId_81.selectAll("g");
-                   var jmId_85 = jmId_83.data((function(jmId_87, jmId_88, jmId_89)
+                   var jmId_83 = jmId_81.append("g");
+                   jmId_83.attr("class", "axis");
+                   var jmId_85 = jmId_83.selectAll("line.y");
+                   var jmId_87 = jmId_85.data(d3.scale.linear().ticks(10)).enter();
+                   var jmId_90 = jmId_87.append("text");
+                   jmId_90.attr("x", 0);
+                   jmId_90.attr("y", d3.scale.linear().domain([-1.0e-2, 0.99]).range([1, 0]));
+                   jmId_90.text(d3.scale.linear().domain([0, 1]).range([1, 0]).tickFormat(",.1f"));
+                   var jmId_92 = jmId_87.append("line");
+                   jmId_92.attr("class", "y");
+                   jmId_92.attr("x2", 1);
+                   jmId_92.attr("x1", 0);
+                   jmId_92.attr("y1", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_92.attr("y2", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_92.attr("stroke", "grey");
+                   jmId_92.attr("stroke-width", "0.001");
+                   var jmId_94 = jmId_81.append("g");
+                   jmId_94.attr("transform", ["translate(", 5.0e-2, ",", 0.0, ")", "scale(", 0.95, ",", 1.0, ")"].join(" "));
+                   var jmId_96 = jmId_94.selectAll("g");
+                   var jmId_98 = jmId_96.data((function(jmId_100, jmId_101, jmId_102)
                                            {
-                                             return jmId_87;
+                                             return jmId_100;
                                            }));
-                   var jmId_94 = jmId_85.enter();
-                   var jmId_97 = jmId_94.append("g");
-                   jmId_97.attr("transform", (function(jmId_99, jmId_100, jmId_101)
-                                              {
-                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_97.data()).length), ",", 1, ")", "translate(", jmId_100, ",", 0, ")"].join(" ");
-                                              }));
-                   var jmId_105 = jmId_97.append("rect");
-                   jmId_105.attr("x", 0);
-                   jmId_105.attr("y", 0);
-                   jmId_105.attr("width", 1);
-                   jmId_105.attr("height", 1);
-                   jmId_105.attr("fill", (function(jmId_107, jmId_108, jmId_109)
+                   var jmId_107 = jmId_98.enter();
+                   var jmId_110 = jmId_107.append("g");
+                   jmId_110.attr("transform", (function(jmId_112, jmId_113, jmId_114)
+                                               {
+                                                 return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_110.data()).length), ",", 1, ")", "translate(", jmId_113, ",", 0, ")"].join(" ");
+                                               }));
+                   var jmId_118 = jmId_110.append("rect");
+                   jmId_118.attr("x", 0);
+                   jmId_118.attr("y", 0);
+                   jmId_118.attr("width", 1);
+                   jmId_118.attr("height", 1);
+                   jmId_118.attr("fill", (function(jmId_120, jmId_121, jmId_122)
                                           {
-                                            return ["url(#first)", "url(#second)", "url(#third)"][(jmId_108 % 3)];
+                                            return ["url(#first)", "url(#second)", "url(#third)"][(jmId_121 % 3)];
                                           }));
-                   jmId_105.attr("stroke", (function(jmId_113, jmId_114, jmId_115)
+                   jmId_118.attr("stroke", (function(jmId_126, jmId_127, jmId_128)
                                             {
-                                              return ["rgb(131,162,153)", "rgb(200,88,58)", "rgb(171,41,46)"][(jmId_114 % 3)];
+                                              return ["rgb(131,162,153)", "rgb(200,88,58)", "rgb(171,41,46)"][(jmId_127 % 3)];
                                             }));
-                   jmId_105.attr("stroke-width", 1);
-                   jmId_105.attr("vector-effect", "non-scaling-stroke");
-                   jmId_105.attr("y", (function(jmId_119, jmId_120, jmId_121)
+                   jmId_118.attr("stroke-width", 1);
+                   jmId_118.attr("vector-effect", "non-scaling-stroke");
+                   jmId_118.attr("y", (function(jmId_132, jmId_133, jmId_134)
                                        {
-                                         return (1 - jmId_119);
+                                         return (1 - jmId_132);
                                        }));
-                   jmId_105.attr("width", 1);
-                   jmId_105.attr("height", (function(jmId_125, jmId_126, jmId_127)
+                   jmId_118.attr("width", 1);
+                   jmId_118.attr("height", (function(jmId_138, jmId_139, jmId_140)
                                             {
-                                              return jmId_125;
+                                              return jmId_138;
                                             }));
                    jmId_81.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
                  }); </script>

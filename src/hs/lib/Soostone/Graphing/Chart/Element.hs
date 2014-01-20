@@ -1,7 +1,6 @@
 ------------------------------------------------------------------------------
 
--- | Holds D3 level primitives.
---   TODO break me up as necessary!
+-- | Chart Element
 
 ------------------------------------------------------------------------------
 
@@ -23,6 +22,6 @@ group = append "g"
 rect :: Chart a () -> Chart a ()
 rect inner = append "rect" $ do
     defaultSize
-    inner
+    inner 
 
 ------------------------------------------------------------------------------

@@ -33,10 +33,10 @@ instance ToJExpr Color where
     toJExpr (RGB a b c) = toJExpr $
         "rgb(" ++ show a ++ "," ++ show b ++ "," ++ show c ++ ")"
 
-instance ToCursor s Color where
+instance ToCursor s Color b where
     toCursor = return . toJExpr
 
-gradient :: (ToCursor s a, ToCursor s b) =>
+gradient :: (ToCursor s a c, ToCursor s b c) =>
     Orientation -> String -> a -> b -> GraphT s c ()
 
 gradient ori name from to =
@@ -81,8 +81,8 @@ dropShadow name =
         append "feOffset" $ do
             attr "in" "blur"
             attr "dx" 5
-            attr "dyoffsetBlur" 5
-            attr "result" "blur"
+            attr "dy" 5
+            attr "result" "offsetBlur"
 
         append "feMerge" $ do
 

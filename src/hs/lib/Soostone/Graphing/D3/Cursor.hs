@@ -26,55 +26,55 @@ import Soostone.Graphing.D3.JMacro
 
 ------------------------------------------------------------------------------
 
--- | A data type for composable, data dependent subexpressions.  `Prefix`
---   `Postfix` represent composition with other data transformations,
+-- | A data type for composable, data dependent subexpressions.  `Pre`
+--   `Post` represent composition with other data transformations,
 --   while `Const` is used for statically embedding a subexpression.
 
-data Cursor = forall a. ToJExpr a => Postfix a
-            | forall a. ToJExpr a => Prefix a
+data Cursor = forall a. ToJExpr a => Post a
+            | forall a. ToJExpr a => Pre a
             | forall a. ToJExpr a => Const a
 
 -- | Encapsulates composition between cursors.  An a in `Graph` a `JExpr` can be
 --   rendered as a data dependent parameter, and the implementation of how it
 --   is rendered & composed is hidden in a's `ToCursor` instance.
 
-class ToCursor s a where
+class ToCursor s a b where
     toCursor :: a -> GraphT s b JExpr
 
-instance (ToCursor a b) => ToCursor a (a -> b) where
+instance (ToCursor a b c) => ToCursor a (a -> b) c where
     toCursor f = do
         theme <- use userState
         toCursor $ f theme
 
-instance ToCursor s Integer where
+instance ToCursor s Integer b where
     toCursor = return . toJExpr
 
-instance ToCursor s Double where
+instance ToCursor s Double b where
     toCursor = return . toJExpr
 
-instance ToCursor s String where
+instance ToCursor s String b where
     toCursor = return . toJExpr
 
-instance ToCursor s JExpr where
+instance ToCursor s JExpr b where
     toCursor = return
 
-instance ToCursor s Cursor where
+instance ToCursor s Cursor b where
 
     toCursor (Const f) =
         return . toJExpr $ f
 
-    toCursor (Postfix f) = do
+    toCursor (Post f) = do
         curs <- use jCursor
         return . curs . toJExpr $ f
 
-    toCursor (Prefix f) = do
+    toCursor (Pre f) = do
         curs <- use jCursor
         return . (replace "__cursor__" . curs . jsv $ "__cursor__") . toJExpr $ f
 
 -- | Changes the definition of __target__ for the scope of `gr`.  Since
 --   the new target is data dependent, it relies on the cursor package.
 
-withTarget :: (ToCursor s b) => b -> GraphT s a () -> GraphT s a ()
+withTarget :: (ToCursor s b a) => b -> GraphT s a () -> GraphT s a ()
 withTarget st gr = do
     inner <- extract gr
     st'   <- toCursor st
@@ -82,6 +82,7 @@ withTarget st gr = do
         var x = `(st')`;
         `(replace "__target__" x inner)`;
     |]
+
 -- | Scopes the `jCursor` property of the `GraphState` in a `Graph`.
 
 scopeCursor :: GraphT s a () -> GraphT s a ()

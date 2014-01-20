@@ -13,14 +13,14 @@ import Utils
 
 testRect :: Transform () -> GraphT () a ()
 testRect tr = select "body" $ append "svg" $ do
-    attr "width" (640 :: Integer)
-    attr "height" (480 :: Integer)
+    attr "width" 640
+    attr "height" 480
 
     append "rect" $ do
-        attr "x" (0 :: Integer)
-        attr "y" (0 :: Integer)
-        attr "width" (100 :: Integer)
-        attr "height" (100 :: Integer)
+        attr "x" 0
+        attr "y" 0
+        attr "width" 100
+        attr "height" 100
         attr "fill" "black"
         attr "transform" tr
 

@@ -7,6 +7,22 @@
             padding: 0;
             margin: 0;
         }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
     </style>
 
     <script> window.onload = (function()
@@ -39,34 +55,52 @@
                                                 return ["scale(", 1, ",", (1 / (d3.select(this.parentNode).datum() || jmId_21.data()).length), ")", "translate(", 0, ",", jmId_24, ")"].join(" ");
                                               }));
                    var jmId_29 = jmId_21.append("g");
-                   var jmId_31 = jmId_29.selectAll("g");
-                   var jmId_33 = jmId_31.data((function(jmId_35, jmId_36, jmId_37)
+                   var jmId_31 = jmId_29.append("g");
+                   jmId_31.attr("class", "axis");
+                   var jmId_33 = jmId_31.selectAll("line.y");
+                   var jmId_35 = jmId_33.data(d3.scale.linear().ticks(10)).enter();
+                   var jmId_38 = jmId_35.append("text");
+                   jmId_38.attr("x", 0);
+                   jmId_38.attr("y", d3.scale.linear().domain([-1.0e-2, 0.99]).range([1, 0]));
+                   jmId_38.text(d3.scale.linear().domain([0, 1]).range([1, 0]).tickFormat(",.1f"));
+                   var jmId_40 = jmId_35.append("line");
+                   jmId_40.attr("class", "y");
+                   jmId_40.attr("x2", 1);
+                   jmId_40.attr("x1", 0);
+                   jmId_40.attr("y1", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_40.attr("y2", d3.scale.linear().domain([0, 1]).range([1, 0]));
+                   jmId_40.attr("stroke", "grey");
+                   jmId_40.attr("stroke-width", "0.001");
+                   var jmId_42 = jmId_29.append("g");
+                   jmId_42.attr("transform", ["translate(", 5.0e-2, ",", 0.0, ")", "scale(", 0.95, ",", 1.0, ")"].join(" "));
+                   var jmId_44 = jmId_42.selectAll("g");
+                   var jmId_46 = jmId_44.data((function(jmId_48, jmId_49, jmId_50)
                                            {
-                                             return jmId_35;
+                                             return jmId_48;
                                            }));
-                   var jmId_42 = jmId_33.enter();
-                   var jmId_45 = jmId_42.append("g");
-                   jmId_45.attr("transform", (function(jmId_47, jmId_48, jmId_49)
+                   var jmId_55 = jmId_46.enter();
+                   var jmId_58 = jmId_55.append("g");
+                   jmId_58.attr("transform", (function(jmId_60, jmId_61, jmId_62)
                                               {
-                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_45.data()).length), ",", 1, ")", "translate(", jmId_48, ",", 0, ")"].join(" ");
+                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_58.data()).length), ",", 1, ")", "translate(", jmId_61, ",", 0, ")"].join(" ");
                                               }));
-                   var jmId_53 = jmId_45.append("rect");
-                   jmId_53.attr("x", 0);
-                   jmId_53.attr("y", 0);
-                   jmId_53.attr("width", 1);
-                   jmId_53.attr("height", 1);
-                   jmId_53.attr("fill", "#99B2B7");
-                   jmId_53.attr("stroke", "#000000");
-                   jmId_53.attr("stroke-width", 1);
-                   jmId_53.attr("vector-effect", "non-scaling-stroke");
-                   jmId_53.attr("y", (function(jmId_55, jmId_56, jmId_57)
+                   var jmId_66 = jmId_58.append("rect");
+                   jmId_66.attr("x", 0);
+                   jmId_66.attr("y", 0);
+                   jmId_66.attr("width", 1);
+                   jmId_66.attr("height", 1);
+                   jmId_66.attr("fill", "#99B2B7");
+                   jmId_66.attr("stroke", "#000000");
+                   jmId_66.attr("stroke-width", 1);
+                   jmId_66.attr("vector-effect", "non-scaling-stroke");
+                   jmId_66.attr("y", (function(jmId_68, jmId_69, jmId_70)
                                       {
-                                        return (1 - jmId_55);
+                                        return (1 - jmId_68);
                                       }));
-                   jmId_53.attr("width", 1);
-                   jmId_53.attr("height", (function(jmId_61, jmId_62, jmId_63)
+                   jmId_66.attr("width", 1);
+                   jmId_66.attr("height", (function(jmId_74, jmId_75, jmId_76)
                                            {
-                                             return jmId_61;
+                                             return jmId_74;
                                            }));
                    jmId_29.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
                  }); </script>

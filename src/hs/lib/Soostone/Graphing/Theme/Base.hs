@@ -53,14 +53,9 @@ themeDefs theme =
 
 -- Utils
 
-cyclIdx :: ToJExpr a => [a] -> Cursor
-cyclIdx xs = Postfix [jmacroE|
-    `(xs)`[__index__ % `(length xs)`]
-|]
-
-cyclGrp :: ToJExpr a => [a] -> Cursor
-cyclGrp xs = Postfix [jmacroE|
-    `(xs)`[__group__ % `(length xs)`]
+cycl :: ToJExpr a => JExpr -> [a] -> Cursor
+cycl expr xs = Post [jmacroE|
+    `(xs)`[`(expr)` % `(length xs)`]
 |]
 
 defaultSize :: GraphT s a ()

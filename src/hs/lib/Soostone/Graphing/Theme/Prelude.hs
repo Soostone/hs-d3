@@ -32,13 +32,14 @@ withPrelude theme graph = do
             attr "width" "100%"
             attr "height" "100%"
     
+
             append "defs" $
                 themeDefs (defs theme)
 
             append "rect" $ do
                 defaultSize
                 attr "fill" backColor
-
+    
             append "g" $ do
                 attr "transform" $ Const $ do
                     translate 0.025 0.025

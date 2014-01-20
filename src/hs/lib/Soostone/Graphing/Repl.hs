@@ -68,6 +68,22 @@ wrapHTML d3 js = [qq|
             padding: 0;
             margin: 0;
         \}
+
+        .domain \{
+            fill: none;
+        \}
+
+        .tick line \{
+            stroke-width: 0.001;
+            stroke: grey;
+        \}
+
+        text \{
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        \}
     </style>
 
     <script> $js </script>

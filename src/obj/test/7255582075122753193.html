@@ -1,0 +1,92 @@
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
+    </style>
+
+    <script> window.onload = (function()
+                 {
+                   var __cursor__;
+                   __cursor__ = [];
+                   var jmId_3 = d3.select("body");
+                   var jmId_5 = jmId_3.append("svg");
+                   var jmId_7 = jmId_5.append("defs");
+                   var jmId_9 = jmId_7.append("filter");
+                   jmId_9.attr("id", "test-shadow");
+                   jmId_9.attr("height", "130%");
+                   var jmId_11 = jmId_9.append("feGaussianBlur");
+                   jmId_11.attr("in", "SourceAlpha");
+                   jmId_11.attr("stdDeviation", 5);
+                   jmId_11.attr("result", "blur");
+                   var jmId_13 = jmId_9.append("feOffset");
+                   jmId_13.attr("in", "blur");
+                   jmId_13.attr("dx", 5);
+                   jmId_13.attr("dy", 5);
+                   jmId_13.attr("result", "offsetBlur");
+                   var jmId_15 = jmId_9.append("feMerge");
+                   var jmId_17 = jmId_15.append("feMergeNode");
+                   jmId_17.attr("in", "offsetBlur");
+                   var jmId_19 = jmId_15.append("feMergeNode");
+                   jmId_19.attr("in", "SourceGraphic");
+                   var jmId_21 = jmId_7.append("linearGradient");
+                   jmId_21.attr("id", "test-gradient");
+                   jmId_21.attr("x1", "0%");
+                   jmId_21.attr("y1", "0%");
+                   jmId_21.attr("x2", "0%");
+                   jmId_21.attr("y2", "100%");
+                   jmId_21.attr("spreadMethod", "pad");
+                   var jmId_23 = jmId_21.append("stop");
+                   jmId_23.attr("offset", "0%");
+                   jmId_23.attr("stop-color", "rgb(200,100,0)");
+                   jmId_23.attr("stop-opacity", 1);
+                   var jmId_25 = jmId_21.append("stop");
+                   jmId_25.attr("offset", "100%");
+                   jmId_25.attr("stop-color", "rgb(0,100,200)");
+                   jmId_25.attr("stop-opacity", 1);
+                   var jmId_27 = jmId_7.append("linearGradient");
+                   jmId_27.attr("id", "test-gradient2");
+                   jmId_27.attr("x1", "0%");
+                   jmId_27.attr("y1", "0%");
+                   jmId_27.attr("x2", "100%");
+                   jmId_27.attr("y2", "0%");
+                   jmId_27.attr("spreadMethod", "pad");
+                   var jmId_29 = jmId_27.append("stop");
+                   jmId_29.attr("offset", "0%");
+                   jmId_29.attr("stop-color", "rgb(200,100,0)");
+                   jmId_29.attr("stop-opacity", 1);
+                   var jmId_31 = jmId_27.append("stop");
+                   jmId_31.attr("offset", "100%");
+                   jmId_31.attr("stop-color", "rgb(0,100,200)");
+                   jmId_31.attr("stop-opacity", 1);
+                   jmId_5.attr("width", 640);
+                   jmId_5.attr("height", 480);
+                   var jmId_33 = jmId_5.append("rect");
+                   jmId_33.attr("x", 100);
+                   jmId_33.attr("y", 100);
+                   jmId_33.attr("width", 100);
+                   jmId_33.attr("height", 100);
+                   jmId_33.attr("fill", "lightblue");
+                   jmId_33.style("filter", "url(#test-shadow)");
+                 }); </script>
+

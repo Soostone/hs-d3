@@ -4,6 +4,10 @@
 
 ------------------------------------------------------------------------------
 
+{-# LANGUAGE ExtendedDefaultRules  #-}
+
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
+
 module Soostone.Graphing.Chart(
     module Soostone.Graphing.Chart.Base,
     module Soostone.Graphing.Chart.Element,
@@ -24,9 +28,17 @@ import Soostone.Graphing.Theme
 -- | A simple bargraph, suitable for impressing your friends.
 
 barGraph :: Chart [Double] ()
-barGraph = 
-    splitVertical $
-        rect $ do
+barGraph = do
+
+    axis
+
+    append "g" $ do
+
+        attr "transform" $ Const $ do
+            translate 0.05 0.0
+            scale 0.95 1.0
+
+        splitVertical $ rect $ do
             attr "fill" foreColor
             attr "stroke" strokeColor
             attr "stroke-width" strokeWidth

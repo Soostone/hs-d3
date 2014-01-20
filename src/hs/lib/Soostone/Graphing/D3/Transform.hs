@@ -34,8 +34,8 @@ newtype Transform a =
     Transform (State [JExpr] a)
     deriving (Functor, Monad, MonadState [JExpr])
 
-instance ToCursor s (Transform ()) where
-    toCursor = toCursor . Postfix . toJExpr
+instance ToCursor s (Transform ()) b where
+    toCursor = toCursor . Post . toJExpr
 
 runTransform :: Transform () -> [JExpr]
 runTransform (Transform s) = execState s []
@@ -54,7 +54,7 @@ scale x y = app [
         toJExpr x,
         jstr ",",
         toJExpr y,
-        jstr")"
+        jstr ")"
     ]
 
 -- | Translates by (x, y)
@@ -65,7 +65,7 @@ translate x y = app [
         toJExpr x,
         jstr ",",
         toJExpr y,
-        jstr")"
+        jstr ")"
     ]
 
 -- | Rotates by x

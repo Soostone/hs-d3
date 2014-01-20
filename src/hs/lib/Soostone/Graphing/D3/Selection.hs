@@ -27,11 +27,20 @@ append el = withTarget [jmacroE|
 
 -- | Sets an attribute on the SVG __target__
 
-attr :: ToCursor s a => String -> a -> GraphT s b ()
+attr :: ToCursor s a b => String -> a -> GraphT s b ()
 attr key prop = do
     prop' <- toCursor prop
     insert [jmacro|
         `(target)`.attr(`(key)`, `(prop')`);
+    |]
+
+-- | Sets the style on the SVG __target__
+
+style :: ToCursor s a b => String -> a -> GraphT s b ()
+style key prop = do
+    prop' <- toCursor prop
+    insert [jmacro|
+        `(target)`.style(`(key)`, `(prop')`);
     |]
 
 -- | A D3 selectAll call - see D3 docs on Selections
@@ -53,7 +62,7 @@ select n = withTarget [jmacroE|
 
 bindData :: GraphT s a () -> GraphT s a ()
 bindData =
-    withTarget (Prefix ent)
+    withTarget (Pre ent)
     where
         ent = [jmacroE| 
             `(target)`.data(`(cursor)`)
@@ -64,10 +73,61 @@ bindData =
 
 enter :: GraphT s a () -> GraphT s [a] ()
 enter =
-    fanout . withTarget (Prefix ent) . scopeCursor
+    fanout . withTarget (Pre ent) . scopeCursor
     where
         ent = [jmacroE| 
             `(target)`.enter()
         |]
 
+call :: JExpr -> GraphT s a ()
+call expr = insert [jmacro|
+    `(target)`.call(`(expr)`);
+|]
+
+
+text :: ToCursor s a b => a -> GraphT s b ()
+text prop = do
+    p <- toCursor prop
+    insert [jmacro|
+        `(target)`.text(`(p)`);
+    |]
+
+bindTicks :: GraphT s a () -> GraphT s a ()
+bindTicks =
+    withTarget (Pre ent)
+    where
+        ent = [jmacroE| 
+            `(target)`.data(d3.scale.linear().ticks(10)).enter()
+        |]
+
+unitScale :: JExpr
+unitScale = [jmacroE| d3.scale.linear().domain([0, 1]).range([1, 0]) |]
+
+offsetScale :: JExpr
+offsetScale = [jmacroE| d3.scale.linear().domain([-0.01, 0.99]).range([1, 0]) |]
+
+invertScale :: JExpr
+invertScale = [jmacroE| d3.scale.linear().domain([0, 1]).range([1, 0]).tickFormat(",.1f") |]
+
+axis :: GraphT s a ()
+axis =
+    append "g" $ do
+        attr "class" "axis"
+
+        selectAll "line.y" $
+            bindTicks $ do
+                append "text" $ do
+                    attr "x" 0
+                    attr "y" offsetScale
+                    text invertScale
+                    
+                append "line" $ do
+                    attr "class" "y"
+                    attr "x2" 1
+                    attr "x1" 0
+                    attr "y1" unitScale
+                    attr "y2" unitScale
+                    attr "stroke" "grey"
+                    attr "stroke-width" "0.001"
+       
 ------------------------------------------------------------------------------
