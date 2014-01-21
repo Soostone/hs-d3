@@ -75,6 +75,6 @@ wrapHTML d3 js = [qq|
 |]
 
 d3lib :: String
-d3lib = B.unpack $(embedFile "/Users/slink/work/d3.hs/lib/js/d3.v2.min.js")
+d3lib = B.unpack $(embedFile "lib/js/d3.v2.min.js")
 
 ------------------------------------------------------------------------------
