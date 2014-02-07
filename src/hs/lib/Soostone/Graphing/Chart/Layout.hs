@@ -43,37 +43,39 @@ anchor LeftSide = do
 
 -- | Given a list of `Graph`s, renders them all side-by-side
 
-split :: GraphT s a () -> Transform () -> GraphT s [a] ()
+split :: GraphT s a b -> Transform () -> GraphT s [a] JExpr
 split graph size =
-    selectAll "g" $ bindData $ enter $ append "g" $ do
-        attr "transform" size
-        graph
+    selectAll "g" `with`
+        bind cursor $
+            enter `with` append "g" `with` do
+                attr "transform" size
+                graph
 
 width :: JExpr
 width = [jmacroE|
     1 / (`(parent)`.datum() || `(target)`.data()).length
 |]
 
-splitVertical :: GraphT s a () -> GraphT s [a] ()
+splitVertical :: GraphT s a b -> GraphT s [a] JExpr
 splitVertical graph = split graph $ do
     scale width 1
     translate index 0
 
-splitHorizontal :: GraphT s a () -> GraphT s [a] ()
+splitHorizontal :: GraphT s a b -> GraphT s [a] JExpr
 splitHorizontal graph = split graph $ do
     scale 1 width
     translate 0 index
 
 -- | Arranges a 2D array as a grid, with proportional spacing.
 
-grid :: GraphT s a () -> GraphT s [[a]] ()
+grid :: GraphT s a b -> GraphT s [[a]] JExpr
 grid = splitVertical . splitHorizontal
 
 -- | Pads a graph with some space.
 
-pad :: Double -> GraphT s a () -> GraphT s a ()
-pad x graph = append "g" $ do
-    graph
+pad :: Double -> GraphT s a b -> GraphT s a JExpr
+pad x graph = append "g" `with` do
+    _ <- graph
     attr "transform" $ Const $ do
         translate (x / 2) (x / 2)
         scale (1 - x) (1 - x)

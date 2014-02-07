@@ -6,6 +6,7 @@
 
 {-# LANGUAGE QuasiQuotes          #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
@@ -15,12 +16,13 @@ import Language.Javascript.JMacro
 
 import Soostone.Graphing.D3.Cursor
 import Soostone.Graphing.D3.Graph
+import Soostone.Graphing.D3.Scope
 
 ------------------------------------------------------------------------------
 
 -- | Creates a new SVG node of a specific type
 
-append :: String -> GraphT s a () -> GraphT s a ()
+append :: String -> GraphT s a JExpr
 append el = withTarget [jmacroE| 
     `(target)`.append(`(el)`) 
 |]
@@ -45,14 +47,14 @@ style key prop = do
 
 -- | A D3 selectAll call - see D3 docs on Selections
 
-selectAll :: String -> GraphT s a () -> GraphT s a ()
+selectAll :: String -> GraphT s a JExpr
 selectAll n = withTarget [jmacroE| 
     `(target)`.selectAll(`n`)
 |]
 
 -- | A D3 select call - see D3 docs on Selections
 
-select :: String -> GraphT s a () -> GraphT s a ()
+select :: String -> GraphT s a JExpr
 select n = withTarget [jmacroE| 
     `(target)`.select(`n`)
 |]
@@ -60,24 +62,34 @@ select n = withTarget [jmacroE|
 -- | A D3 data call - see D3 docs on Selections. 
 --   TODO this will probably be broken into 2 `Graph`s eventually.
 
-bindData :: GraphT s a () -> GraphT s a ()
-bindData =
-    withTarget (Pre ent)
+bind :: ToCursor s b a => b -> GraphT s a c -> GraphT s [a] JExpr
+bind r = 
+    fanout . with ent . scopeCursor
     where
-        ent = [jmacroE| 
-            `(target)`.data(`(cursor)`)
-        |]
+        ent = do
+            x <- toCursor r
+            withTarget $ Pre [jmacroE| 
+                `(target)`.data(`(x)`)
+            |]
+
+bindT :: (ToCursor s b d) => b -> GraphT s d JExpr -> GraphT s c JExpr
+bindT r = 
+    fanout . with ent . scopeCursor
+    where
+        ent = do
+            x <- toCursor r
+            withTarget $ Pre [jmacroE| 
+                `(target)`.data(`(x)`)
+            |]
 
 -- | A D3 enter call - see D3 docs on Selections. 
 --   TODO this will probably be broken into 2 `Graph`s eventually.
 
-enter :: GraphT s a () -> GraphT s [a] ()
-enter =
-    fanout . withTarget (Pre ent) . scopeCursor
-    where
-        ent = [jmacroE| 
-            `(target)`.enter()
-        |]
+enter :: GraphT s a JExpr
+enter = 
+    withTarget [jmacroE| 
+        `(target)`.enter()
+    |]
 
 call :: JExpr -> GraphT s a ()
 call expr = insert [jmacro|
@@ -92,42 +104,54 @@ text prop = do
         `(target)`.text(`(p)`);
     |]
 
-bindTicks :: GraphT s a () -> GraphT s a ()
-bindTicks =
-    withTarget (Pre ent)
-    where
-        ent = [jmacroE| 
-            `(target)`.data(d3.scale.linear().ticks(10)).enter()
-        |]
+linear :: GraphT s a JExpr
+linear = withTarget [jmacroE| d3.scale.linear() |]
 
-unitScale :: JExpr
-unitScale = [jmacroE| d3.scale.linear().domain([0, 1]).range([1, 0]) |]
+range :: ToCursor s b a => b -> GraphT s a ()
+range b = do
+    x <- toCursor b
+    insert [jmacro| 
+       `(target)`.range(`(x)`);
+    |]
 
-offsetScale :: JExpr
-offsetScale = [jmacroE| d3.scale.linear().domain([-0.01, 0.99]).range([1, 0]) |]
+domain :: ToCursor s b a => b -> GraphT s a ()
+domain b = do
+    x <- toCursor b
+    insert [jmacro| 
+       `(target)`.domain(`(x)`);
+    |]
 
-invertScale :: JExpr
-invertScale = [jmacroE| d3.scale.linear().domain([0, 1]).range([1, 0]).tickFormat(",.1f") |]
+tickFormat :: ToCursor s b a => b -> GraphT s a JExpr
+tickFormat b = do
+    x <- toCursor b
+    withTarget [jmacroE| 
+       `(target)`.tickFormat(10, d3.format(`(x)`))
+    |]
 
-axis :: GraphT s a ()
-axis =
-    append "g" $ do
-        attr "class" "axis"
+extent :: ToCursor s b a => b -> GraphT s a JExpr
+extent gr = do
+    ex <- scopeCursor . toCursor $ gr
+    withTarget [jmacroE|
+        d3.extent(`(target)`.datum() || `(cursor)`, `(ex)`)
+    |]
 
-        selectAll "line.y" $
-            bindTicks $ do
-                append "text" $ do
-                    attr "x" 0
-                    attr "y" offsetScale
-                    text invertScale
-                    
-                append "line" $ do
-                    attr "class" "y"
-                    attr "x2" 1
-                    attr "x1" 0
-                    attr "y1" unitScale
-                    attr "y2" unitScale
-                    attr "stroke" "grey"
-                    attr "stroke-width" "0.001"
-       
+clamp :: ToCursor s b a => b -> GraphT s a JExpr
+clamp gr = do
+    ex <- scopeCursor . toCursor $ gr
+    withTarget [jmacroE|
+        [0, d3.max(`(target)`.datum() || `(cursor)`, `(ex)`)]
+    |]
+
+nice :: GraphT s a ()
+nice = insert [jmacro|
+    `(target)`.nice();
+|]
+
+ticks :: ToCursor s b a => b -> GraphT s a JExpr
+ticks c = do
+    x <- toCursor c
+    withTarget [jmacroE|
+        `(target)`.ticks(`(x)`)
+    |]
+     
 ------------------------------------------------------------------------------

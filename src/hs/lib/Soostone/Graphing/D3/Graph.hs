@@ -14,8 +14,8 @@ module Soostone.Graphing.D3.Graph where
 
 import Control.Lens hiding (index, transform)
 
+import Control.Applicative
 import Control.Monad.State
-import Data.Monoid
 import Language.Javascript.JMacro
 
 ------------------------------------------------------------------------------
@@ -23,9 +23,10 @@ import Language.Javascript.JMacro
 -- | State record for use in the `Graph` monad.
 
 data GraphState s = GraphState {
-    _jstat   :: JStat,
+    _jstat   :: JStat -> JStat,
     _jCursor :: JExpr -> JExpr,
-    _userState :: s
+    _userState :: s,
+    _varSeed :: Int
 } deriving (Functor)
 
 makeLenses ''GraphState
@@ -34,10 +35,14 @@ makeLenses ''GraphState
 
 emptyState :: s -> GraphState s
 emptyState s = GraphState {
-    _jstat = mempty,
+    _jstat = id,
     _jCursor = id,
-    _userState = s
+    _userState = s,
+    _varSeed = 0
 }
+
+newVar :: GraphT s a String
+newVar = ("d3_" ++) . show <$> (varSeed <<%= (+1))
 
 -- | The core data structure representing a graph computation.
 
@@ -47,35 +52,53 @@ newtype GraphT s a b =
 
 type Graph = GraphT ()
 
-runGraph :: GraphT s a b -> GraphState s -> GraphState s
-runGraph (Graph s) = execState s
+runGraph :: GraphT s a b -> GraphState s -> (b, GraphState s)
+runGraph (Graph s) = runState s
 
-fanout :: GraphT s a () -> GraphT s [a] ()
-fanout = modify . runGraph
+fanout :: GraphT s a b -> GraphT s c b
+fanout x = do
+    st <- get
+    let (b, st') = runGraph x st
+    put st'
+    return b
+
+--fanin :: GraphT s [a] b -> GraphT s a b
+--fanin = modify . runGraph
 
 -- | Given a `Graph`, extracts the `JStat` that this Graph would have
 --   rendered.  Useful for compositional tools.
 --   TODO there is probably a better way to do this.
 
-extract :: GraphT s a () -> GraphT s a JStat
+extract :: GraphT s a b -> GraphT s a (b, JStat -> JStat)
 extract gr = do
     oldSt <- get
     clear
-    gr
+    gr' <- gr
     newStat <- use jstat
-    put oldSt
-    return newStat
+    seed <- use varSeed
+    put oldSt 
+    varSeed .= seed
+    return (gr', newStat)
 
 -- | The compliment to extract, `insert` appends a snippet of `JStat`
 --   to the state of the current `Graph`.
 
 insert :: JStat -> GraphT s a ()
-insert = (jstat <>=)
+insert js = insertCont $ \cont -> [jmacro|
+    `(js)`;
+    `(cont)`;
+|]
+
+-- | The compliment to extract, `insert` appends a snippet of `JStat`
+--   to the state of the current `Graph`.
+
+insertCont :: (JStat -> JStat) -> GraphT s a ()
+insertCont js = jstat %= (. js)
 
 -- | Clears the current JStat - for internal user only.
 
 clear :: GraphT s a ()
-clear = jstat .= mempty
+clear = jstat .= id
 
 -- | Convenience method for target
 

@@ -6,6 +6,7 @@
 
 module ShapesSpec where
 
+import Control.Monad
 import Test.Hspec
 
 import Soostone.Graphing.D3
@@ -15,7 +16,7 @@ import Soostone.Graphing.Theme
 import Utils
 
 bar :: Anchor -> Chart Double ()
-bar side = rect $ anchor side
+bar side = void $ rect `with` anchor side
 
 -- Use sample for real tests
 -- Use inProgress when working and it should fail
@@ -29,13 +30,13 @@ spec = describe "Shapes" $ do
 
             ([] :: [Int]) $
 
-            ThemeChart def $ rect $ return ()
+            ThemeChart def $ void rect
 
         sample "a colored rectangle" 
 
             ([] :: [Int]) $
 
-            ThemeChart def $ rect $ attr "fill" "red"
+            ThemeChart def $ void $ rect `with` attr "fill" "red"
 
     describe "Pad" $
 
@@ -43,7 +44,7 @@ spec = describe "Shapes" $ do
 
             ([] :: [Int]) $
 
-            ThemeChart def $ pad 0.5 $ rect $ return ()
+            ThemeChart def $ void $ pad 0.5 rect
 
     describe "Split" $ do
 
@@ -51,19 +52,19 @@ spec = describe "Shapes" $ do
 
             [1.0, 0.5, 0.25, 0.7, 0.9] $
 
-            ThemeChart def $ splitVertical $ bar Top
+            ThemeChart def $ void $ splitVertical $ bar Top
 
         sample "a horizontally oriented bar graph, anchored to the left" 
 
             [1.0, 0.5, 0.25, 0.7, 0.9] $
 
-            ThemeChart def $ splitHorizontal (bar LeftSide)
+            ThemeChart def $ void $ splitHorizontal (bar LeftSide)
 
         sample "a horizontally oriented bar graph, anchored to the tight" 
 
             [1.0, 0.5, 0.25, 0.7, 0.9] $
 
-            ThemeChart def $ splitHorizontal (bar RightSide)
+            ThemeChart def $ void $ splitHorizontal (bar RightSide)
 
     describe "Grid" $
 
@@ -71,5 +72,5 @@ spec = describe "Shapes" $ do
 
             [[1.0, 0.5, 0.25, 0.7, 0.9], [0.5, 0.3, 0.25, 1.0, 0.4]] $
 
-            ThemeChart def $ grid $ pad 0.1 $ bar Top
+            ThemeChart def $ void $ grid $ pad 0.1 $ bar Top
 

@@ -9,14 +9,11 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE FlexibleInstances         #-}
 {-# LANGUAGE MultiParamTypeClasses     #-}
-{-# LANGUAGE QuasiQuotes               #-}
 
 module Soostone.Graphing.D3.Cursor(
     Cursor( .. ),
     ToCursor( .. ),
-    scopeCursor,
-    withTarget
-) where
+ ) where
 
 import Control.Lens
 import Language.Javascript.JMacro
@@ -49,6 +46,12 @@ instance (ToCursor a b c) => ToCursor a (a -> b) c where
 instance ToCursor s Integer b where
     toCursor = return . toJExpr
 
+instance ToCursor s [Integer] b where
+    toCursor = return . toJExpr
+
+instance ToCursor s [Double] b where
+    toCursor = return . toJExpr
+
 instance ToCursor s Double b where
     toCursor = return . toJExpr
 
@@ -69,37 +72,6 @@ instance ToCursor s Cursor b where
 
     toCursor (Pre f) = do
         curs <- use jCursor
-        return . (replace "__cursor__" . curs . jsv $ "__cursor__") . toJExpr $ f
-
--- | Changes the definition of __target__ for the scope of `gr`.  Since
---   the new target is data dependent, it relies on the cursor package.
-
-withTarget :: (ToCursor s b a) => b -> GraphT s a () -> GraphT s a ()
-withTarget st gr = do
-    inner <- extract gr
-    st'   <- toCursor st
-    insert [jmacro|
-        var x = `(st')`;
-        `(replace "__target__" x inner)`;
-    |]
-
--- | Scopes the `jCursor` property of the `GraphState` in a `Graph`.
-
-scopeCursor :: GraphT s a () -> GraphT s a ()
-scopeCursor graph = do
-    oldCursor <- use jCursor
-    jCursor .= callback
-    graph
-    jCursor .= oldCursor
-
-callback :: JExpr -> JExpr
-callback a = [jmacroE|
-    function(x, y, z) {
-        return `(sanitize x y z $ a)`;
-    }
-|] where
-    sanitize x y z = replace "__cursor__" x
-        . replace "__index__" y
-        . replace "__group__" z
+        return . (replace "__cursor__" . curs $ cursor) . toJExpr $ f
 
 ------------------------------------------------------------------------------

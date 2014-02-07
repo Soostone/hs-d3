@@ -5,6 +5,7 @@
 
 module StyleSpec where
 
+import Control.Monad
 import Test.Hspec
 
 import Soostone.Graphing.D3
@@ -12,9 +13,9 @@ import Soostone.Graphing.D3
 import Utils
 
 testRect :: GraphT () a () -> GraphT () a ()
-testRect tr = select "body" $ append "svg" $ do
+testRect tr = void $ select "body" `with` append "svg" `with` do
 
-    append "defs" $ do
+    append "defs" `with` do
         dropShadow "test-shadow"
         gradient Vertical "test-gradient" (RGB 200 100 0) (RGB 0 100 200)
         gradient Horizontal "test-gradient2" (RGB 200 100 0) (RGB 0 100 200)
@@ -22,7 +23,7 @@ testRect tr = select "body" $ append "svg" $ do
     attr "width" 640
     attr "height" 480
 
-    append "rect" $ do
+    append "rect" `with` do
         attr "x" 100
         attr "y" 100
         attr "width" 100

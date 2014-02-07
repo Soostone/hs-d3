@@ -31,6 +31,13 @@ spec = describe "Chart" $ do
 
             (ThemeChart def barGraph) 
 
+        sample "a bar graph with arbitrary data size" 
+
+           (map ((+ 10) . (*10) . sin . (/5)) (take 75 [0..]))
+
+            (ThemeChart def barGraph) 
+
+
     describe "Stacked Bar Graphs" $ do
 
         sample "a trivial stacked bar graph" 
@@ -82,6 +89,12 @@ spec = describe "Chart" $ do
 
             (ThemeChart def stackedBarGraph)
 
+        sample "a stacked bar graph with arbitrary data size" 
+
+            (replicate 10 (map ((+ 10) . (*10) . sin . (/5)) (take 75 [0..])))
+
+            (ThemeChart def stackedBarGraph) 
+
     describe "Grid layouts" $ do
 
         sample "a trivial grid layout" 
@@ -107,6 +120,13 @@ spec = describe "Chart" $ do
             ])
 
             (ThemeChart def gridBarGraph)  
+
+        sample "a grid bar graph with arbitrary data size" 
+
+            (replicate 6 (replicate 6 (map ((+ 10) . (*10) . sin . (/5)) (take 75 [0..]))))
+
+            (ThemeChart def gridBarGraph) 
+
 
 
 

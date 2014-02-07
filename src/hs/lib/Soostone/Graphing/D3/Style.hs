@@ -17,6 +17,7 @@ import Language.Javascript.JMacro
 
 import Soostone.Graphing.D3.Cursor
 import Soostone.Graphing.D3.Graph
+import Soostone.Graphing.D3.Scope
 import Soostone.Graphing.D3.Selection
 
 ------------------------------------------------------------------------------
@@ -37,11 +38,11 @@ instance ToCursor s Color b where
     toCursor = return . toJExpr
 
 gradient :: (ToCursor s a c, ToCursor s b c) =>
-    Orientation -> String -> a -> b -> GraphT s c ()
+    Orientation -> String -> a -> b -> GraphT s c JExpr
 
 gradient ori name from to =
 
-    append "linearGradient" $ do
+    append "linearGradient" `with` do
         attr "id" name
         attr "x1" "0%"
         attr "y1" "0%"
@@ -56,40 +57,40 @@ gradient ori name from to =
 
         attr "spreadMethod" "pad"
 
-        append "stop" $ do
+        append "stop" `with` do
             attr "offset" "0%"
             attr "stop-color" from
             attr "stop-opacity" 1
 
-        append "stop" $ do
+        append "stop" `with`do
             attr "offset" "100%"
             attr "stop-color" to
             attr "stop-opacity" 1
 
-dropShadow :: String -> GraphT s a ()
+dropShadow :: String -> GraphT s a JExpr
 dropShadow name =
 
-    append "filter" $ do
+    append "filter" `with` do
         attr "id" name
         attr "height" "130%"
 
-        append "feGaussianBlur" $ do
+        append "feGaussianBlur" `with` do
             attr "in" "SourceAlpha"
             attr "stdDeviation" 5
             attr "result" "blur"
 
-        append "feOffset" $ do
+        append "feOffset" `with` do
             attr "in" "blur"
             attr "dx" 5
             attr "dy" 5
             attr "result" "offsetBlur"
 
-        append "feMerge" $ do
+        append "feMerge" `with` do
 
-            append "feMergeNode" $
+            append "feMergeNode" `with`
                 attr "in" "offsetBlur"
 
-            append "feMergeNode" $
+            append "feMergeNode" `with`
                 attr "in" "SourceGraphic"
 
 ------------------------------------------------------------------------------

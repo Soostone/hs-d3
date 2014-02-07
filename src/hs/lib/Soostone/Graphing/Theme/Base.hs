@@ -49,7 +49,7 @@ instance Default ThemeSt where
 
 themeDefs :: GraphT () a () -> GraphT ThemeSt a ()
 themeDefs theme =
-    insert $ runGraph theme (emptyState ()) ^. jstat
+    insertCont $ snd (runGraph theme (emptyState ())) ^. jstat
 
 -- Utils
 

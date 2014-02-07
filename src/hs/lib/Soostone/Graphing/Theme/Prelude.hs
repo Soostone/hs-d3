@@ -12,6 +12,7 @@
 module Soostone.Graphing.Theme.Prelude where
 
 import Control.Lens
+import Control.Monad
 
 import Soostone.Graphing.D3
 import Soostone.Graphing.Theme.Base
@@ -22,25 +23,25 @@ import Soostone.Graphing.Theme.Base
 --   sets a D3 transform and group for the component graph elements.
 
 withPrelude :: Theme a -> GraphT ThemeSt a () -> GraphT ThemeSt a ()
-withPrelude theme graph = do
+withPrelude theme graph = void $ do
     userState .= themeSt theme
-    select "body" $
+    select "body" `with`
     
-        append "svg" $ do
+        append "svg" `with` do
             attr "viewBox" "0 0 1 1"
             attr "preserveAspectRatio" "none"
             attr "width" "100%"
             attr "height" "100%"
     
 
-            append "defs" $
+            append "defs" `with`
                 themeDefs (defs theme)
 
-            append "rect" $ do
+            append "rect" `with` do
                 defaultSize
                 attr "fill" backColor
     
-            append "g" $ do
+            append "g" `with` do
                 attr "transform" $ Const $ do
                     translate 0.025 0.025
                     scale 0.95 0.95

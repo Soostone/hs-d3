@@ -5,6 +5,7 @@
 
 module TransformSpec where
 
+import Control.Monad
 import Test.Hspec
 
 import Soostone.Graphing.D3
@@ -12,17 +13,18 @@ import Soostone.Graphing.D3
 import Utils
 
 testRect :: Transform () -> GraphT () a ()
-testRect tr = select "body" $ append "svg" $ do
-    attr "width" 640
-    attr "height" 480
+testRect tr = void $ select "body" `with` 
+    append "svg" `with` do
+        attr "width" 640
+        attr "height" 480
 
-    append "rect" $ do
-        attr "x" 0
-        attr "y" 0
-        attr "width" 100
-        attr "height" 100
-        attr "fill" "black"
-        attr "transform" tr
+        append "rect" `with` do
+            attr "x" 0
+            attr "y" 0
+            attr "width" 100
+            attr "height" 100
+            attr "fill" "black"
+            attr "transform" tr
 
 empty :: [Integer]
 empty = []

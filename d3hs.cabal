@@ -38,8 +38,10 @@ Library
     Soostone.Graphing.D3.JMacro
     Soostone.Graphing.D3.Render
     Soostone.Graphing.D3.Style
+    Soostone.Graphing.D3.Scope
     Soostone.Graphing.D3.Transform
     Soostone.Graphing.Chart
+    Soostone.Graphing.Chart.Axis
     Soostone.Graphing.Chart.Base
     Soostone.Graphing.Chart.Element
     Soostone.Graphing.Chart.Layout
@@ -47,6 +49,32 @@ Library
     Soostone.Graphing.Theme
     Soostone.Graphing.Theme.Base
     Soostone.Graphing.Theme.Prelude
+
+Benchmark bench
+  Type: exitcode-stdio-1.0
+  Hs-Source-Dirs: src/hs/bench
+  Main-Is: Bench.hs
+  ghc-options: 
+    -Wall -fwarn-tabs -funbox-strict-fields
+    -fno-warn-unused-do-bind -threaded
+    -funfolding-use-threshold=16 -fexcess-precision
+    -optc-O3 -optc-ffast-math    
+  Build-Depends: 
+    base,
+    criterion,
+    base,
+    bytestring   == 0.10.0.2,
+    utf8-string,    
+    directory    == 1.2.0.1,
+    MissingH     == 1.2.0.2,
+    file-embed   == 0.0.6,
+    cereal       == 0.4.0.1,
+    HTTP         == 4000.2.8,
+    network      == 2.4.1.2,
+    process      == 1.1.0.2,
+    jmacro       == 0.6.8,
+    lens         == 3.9.0.2,
+    d3hs
 
 Test-Suite spec
   Type: exitcode-stdio-1.0
@@ -57,10 +85,13 @@ Test-Suite spec
     base,
     bytestring               >= 0.10  && < 0.11,
     directory                >= 1.2   && < 1.3,
+    file-embed               == 0.0.6,
     hashable                 >= 1.1   && < 1.3,
     hspec                    >= 1.3, 
     HUnit,
+    HTTP                     == 4000.2.8,
     interpolatedstring-perl6 >= 0.9.0,
     jmacro                   >= 0.6   && < 0.7,
+    network                  == 2.4.1.2,
     process                  >= 1.1   && < 1.2,
     d3hs

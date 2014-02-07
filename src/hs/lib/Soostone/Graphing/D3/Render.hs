@@ -14,6 +14,7 @@ module Soostone.Graphing.D3.Render(
 ) where
 
 import Control.Lens
+import Data.Monoid
 import Language.Javascript.JMacro
 import Text.PrettyPrint.Leijen.Text hiding (group, width, (<$>))
 import Text.Regex
@@ -34,6 +35,7 @@ instance Render (GraphT ()) where
 renderGraph :: ToJExpr a => s -> a -> GraphT s a () -> String
 renderGraph st dat graph =
     renderGraphState
+    . snd
     . runGraph (setData dat >> graph)
     $ emptyState st
 
@@ -45,6 +47,7 @@ renderGraphState =
         . replace "__target__" (jsv "d3")
         . replace "__index__" 0
         . replace "__group__" 0
+        . ($ mempty)
         . view jstat
 
 -- | Renders a `JExpr` as a string.
@@ -60,7 +63,20 @@ compress = flip (subRegex (mkRegexWithOpts "var (jmId_[0-9]+);[ \\t\n]*jmId_[0-9
 
 onload :: JStat -> JStat
 onload js = [jmacro|
-    window.onload = function () { `(js)`; };
+    window.onload = function () { 
+        `(js)`; 
+
+        var svg  = d3.selectAll("svg");
+        var text = d3.selectAll("text");
+
+        window.onresize = function() {
+            var height = parseFloat(svg.style("height"));
+            var width  = parseFloat(svg.style("width"));
+            var scalar = 12 / height;
+            text.style("font-size", scalar).attr("transform", "scale(" + (height / width) + ", 1)");
+        };
+        window.onresize();
+    };
 |]
 
 ------------------------------------------------------------------------------

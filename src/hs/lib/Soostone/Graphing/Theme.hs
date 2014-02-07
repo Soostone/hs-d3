@@ -16,6 +16,8 @@ module Soostone.Graphing.Theme(
     banaaniTheme
 ) where
 
+import Control.Monad
+
 import Soostone.Graphing.D3
 import Soostone.Graphing.Theme.Base
 import Soostone.Graphing.Theme.Prelude
@@ -48,7 +50,7 @@ rainbowTheme = def {
 banaaniTheme :: Theme a
 banaaniTheme = def {
     
-    defs = do
+    defs = void $ do
         gradient Vertical "fourth" (RGB 223 214 191) (RGB 193 185 165)
         gradient Vertical "fifth"  (RGB 150 186 175) (RGB 131 162 153)
 
