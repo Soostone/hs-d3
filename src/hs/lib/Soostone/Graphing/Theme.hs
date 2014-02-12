@@ -31,7 +31,7 @@ rainbowTheme = def {
 
     themeSt = def {
 
-        foreColor = cycl group [
+        foreColor = Box $ cycl group [
                 Hex "#096975",
                 Hex "#7DB31B",
                 Hex "#CFCF0C",
@@ -39,7 +39,7 @@ rainbowTheme = def {
                 Hex "#DB2556"
             ],
 
-        backColor = Const . Hex $ "LightBlue"
+        backColor = Box $ Hex "LightBlue"
     }
 } 
 
@@ -60,11 +60,11 @@ banaaniTheme = def {
 
     themeSt = def {
 
-        foreColor = cycl index [URL "first", URL "second", URL "third"],
-        backColor = cycl index [URL "fourth"],
+        foreColor = Box $ cycl index [URL "first", URL "second", URL "third"],
+        backColor = Box $ cycl index [URL "fourth"],
 
-        strokeColor = cycl index [RGB 131 162 153, RGB 200 88 58, RGB 171 41 46],
-        strokeWidth = Const 1
+        strokeColor = Box $ cycl index [RGB 131 162 153, RGB 200 88 58, RGB 171 41 46],
+        strokeWidth = Box (1 :: Integer)
     }
 }
 

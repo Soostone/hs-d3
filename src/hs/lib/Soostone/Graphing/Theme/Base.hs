@@ -4,8 +4,14 @@
 
 ------------------------------------------------------------------------------
 
+{-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE ExtendedDefaultRules      #-}
+{-# LANGUAGE FlexibleInstances         #-}
+{-# LANGUAGE FlexibleContexts          #-}
+{-# LANGUAGE GADTs                     #-}
+{-# LANGUAGE MultiParamTypeClasses     #-}
 {-# LANGUAGE QuasiQuotes               #-}
+{-# LANGUAGE RankNTypes                #-}
 
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
@@ -26,11 +32,16 @@ data Theme a = Theme {
     themeSt :: ThemeSt
 }
 
+data Box = forall a. ToJExpr a => Box a
+
+instance ToCursor ThemeSt a Box where
+    toCursor (Box x) = toCursor . toJExpr $ x
+
 data ThemeSt = ThemeSt {
-    strokeColor :: Cursor,
-    strokeWidth :: Cursor,
-    foreColor   :: Cursor,
-    backColor   :: Cursor
+    strokeColor :: Box,
+    strokeWidth :: Box,
+    foreColor   :: Box,
+    backColor   :: Box
 }
 
 instance Default (Theme a) where
@@ -41,10 +52,10 @@ instance Default (Theme a) where
 
 instance Default ThemeSt where
     def = ThemeSt {
-        foreColor = Const . Hex $ "#99B2B7",
-        backColor = Const . Hex $ "white",
-        strokeColor = Const . Hex $ "#000000",
-        strokeWidth = Const 1
+        foreColor   = Box $ Hex "#99B2B7",
+        backColor   = Box $ Hex "white",
+        strokeColor = Box $ Hex "#000000",
+        strokeWidth = Box (1 :: Integer)
     }
 
 themeDefs :: GraphT () a () -> GraphT ThemeSt a ()
@@ -53,8 +64,8 @@ themeDefs theme =
 
 -- Utils
 
-cycl :: ToJExpr a => JExpr -> [a] -> Cursor
-cycl expr xs = Post [jmacroE|
+cycl :: ToJExpr a => JExpr -> [a] -> JExpr
+cycl expr xs = [jmacroE|
     `(xs)`[`(expr)` % `(length xs)`]
 |]
 

@@ -5,6 +5,7 @@
 ------------------------------------------------------------------------------
 
 {-# LANGUAGE ExtendedDefaultRules  #-}
+{-# LANGUAGE QuasiQuotes           #-}
 
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
@@ -14,15 +15,20 @@ module Soostone.Graphing.Chart(
     module Soostone.Graphing.Chart.Layout,
     barGraph,
     stackedBarGraph,
-    gridBarGraph
+    gridBarGraph,
+    coloredBarGraph,
+    Bar( ..)
 ) where
 
+import Control.Lens
 import Control.Monad
+import Language.Javascript.JMacro
 
 import Soostone.Graphing.Chart.Axis
 import Soostone.Graphing.Chart.Base
 import Soostone.Graphing.Chart.Element
 import Soostone.Graphing.Chart.Layout
+import Soostone.Graphing.D3.JMacro
 import Soostone.Graphing.D3
 import Soostone.Graphing.Theme
 
@@ -33,20 +39,62 @@ import Soostone.Graphing.Theme
 barGraph :: Chart [Double] ()
 barGraph = void $ do
 
-    sc <- axis
+    sc <- xAxis
 
     append "g" `with` do
 
-        attr "transform" $ Const $ do
+        attr "transform" $ do
             translate 0.05 0.0
             scale 0.95 1.0
 
-        splitVertical $ rect `with` scaleCursor sc $ do
+        splitVertical $ rect `with` withCursor sc $ do
             attr "fill" foreColor
             attr "stroke" strokeColor
             attr "stroke-width" strokeWidth
             attr "vector-effect" "non-scaling-stroke"
             anchor Bottom
+
+data Bar = Bar { value :: Double, color :: String }
+
+-- | TODO this should be auto-generated for records somehow
+
+instance ToJExpr Bar where
+    toJExpr b = [jmacroE|
+
+            { value: `(value b)`, color: `(color b)` }
+
+        |]
+
+getValue :: JExpr
+getValue = 
+    [jmacroE| `(cursor)`.value |]
+
+getColor :: JExpr
+getColor = 
+    [jmacroE| `(cursor)`.color |]
+
+-- | A colored bar graph designed to work with metadata records
+
+coloredBarGraph :: Chart [Bar] ()
+coloredBarGraph = void $ do
+
+    sc <- withCursor getValue xAxis
+
+    append "g" `with` do
+
+        attr "transform" $ do
+            translate 0.05 0.0
+            scale 0.95 1.0
+        
+        splitVertical $ rect `with` do
+            withCursor getColor $ 
+                attr "fill" cursor
+
+            withCursor getValue $ withCursor sc  $ do
+                attr "stroke" strokeColor
+                attr "stroke-width" strokeWidth
+                attr "vector-effect" "non-scaling-stroke"
+                anchor Bottom
 
 -- | A vertically stacked bar graph.
 

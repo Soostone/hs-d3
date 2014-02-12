@@ -155,7 +155,7 @@ inProgress title dat source =
 		$ inProgress' title dat source assertFailure
 
 cdnD3 :: EmbedMode
-cdnD3 = Inline -- Path "http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"
+cdnD3 = Path "http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"
 
 inProgress' :: (ToJExpr a, Render b) => String -> a -> b a () -> (String -> IO ()) -> IO ()
 inProgress' title dat source asert = do

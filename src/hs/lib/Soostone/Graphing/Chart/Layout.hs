@@ -26,19 +26,19 @@ data Anchor = Top | RightSide | Bottom | LeftSide
 
 anchor :: Anchor -> Chart a ()
 anchor Bottom = do
-    attr "y" $ Post $ 1 - cursor
+    attr "y" $ 1 - cursor
     anchor Top
 
 anchor Top = do
     attr "width" 1
-    attr "height" $ Post cursor
+    attr "height" cursor
 
 anchor RightSide = do
-    attr "x" $ Post $ 1 - cursor
+    attr "x" $ 1 - cursor
     anchor LeftSide
 
 anchor LeftSide = do
-    attr "width" $ Post cursor
+    attr "width" cursor
     attr "height" 1
 
 -- | Given a list of `Graph`s, renders them all side-by-side
@@ -76,7 +76,7 @@ grid = splitVertical . splitHorizontal
 pad :: Double -> GraphT s a b -> GraphT s a JExpr
 pad x graph = append "g" `with` do
     _ <- graph
-    attr "transform" $ Const $ do
+    attr "transform" $ do
         translate (x / 2) (x / 2)
         scale (1 - x) (1 - x)
 

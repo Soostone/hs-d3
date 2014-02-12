@@ -7,71 +7,70 @@
 ------------------------------------------------------------------------------
 
 {-# LANGUAGE ExistentialQuantification #-}
+{-# LANGUAGE DefaultSignatures         #-}
 {-# LANGUAGE FlexibleInstances         #-}
+{-# LANGUAGE GADTs                     #-}
 {-# LANGUAGE MultiParamTypeClasses     #-}
+{-# LANGUAGE QuasiQuotes               #-}
 
 module Soostone.Graphing.D3.Cursor(
-    Cursor( .. ),
     ToCursor( .. ),
  ) where
 
 import Control.Lens
-import Language.Javascript.JMacro
+import Language.Javascript.JMacro as J
 
 import Soostone.Graphing.D3.Graph
 import Soostone.Graphing.D3.JMacro
 
 ------------------------------------------------------------------------------
 
--- | A data type for composable, data dependent subexpressions.  `Pre`
---   `Post` represent composition with other data transformations,
---   while `Const` is used for statically embedding a subexpression.
-
-data Cursor = forall a. ToJExpr a => Post a
-            | forall a. ToJExpr a => Pre a
-            | forall a. ToJExpr a => Const a
-
 -- | Encapsulates composition between cursors.  An a in `Graph` a `JExpr` can be
 --   rendered as a data dependent parameter, and the implementation of how it
 --   is rendered & composed is hidden in a's `ToCursor` instance.
 
 class ToCursor s a b where
-    toCursor :: a -> GraphT s b JExpr
+    toCursor :: b -> GraphT s a JExpr
+    default toCursor :: (ToJExpr b) => b -> GraphT s a JExpr
+    toCursor f = do
+        curs <- use jCursor
+        joined <- use jJoined
+        let ex = curs $ toJExpr f
+        return $ case (joined, count "__cursor__" ex + count "__group__" ex + count "__index__" ex) of
+            (_, 0)     -> ex
+            (False, _) -> ex
+            (True, _)  -> callback ex
 
-instance (ToCursor a b c) => ToCursor a (a -> b) c where
+instance ToCursor s a Integer
+instance ToCursor s a [Integer]
+instance ToCursor s a [Double]
+instance ToCursor s a Double
+instance ToCursor s a String
+instance ToCursor s a JExpr
+
+instance (ToCursor a b c) => ToCursor a b (a -> c) where
     toCursor f = do
         theme <- use userState
         toCursor $ f theme
 
-instance ToCursor s Integer b where
-    toCursor = return . toJExpr
+callback :: JExpr -> JExpr
+callback a = [jmacroE|
 
-instance ToCursor s [Integer] b where
-    toCursor = return . toJExpr
+    function(x, y, z) {
+        return `(sanitize x y z $ a)`;
+    }
 
-instance ToCursor s [Double] b where
-    toCursor = return . toJExpr
+|] where
+    sanitize x y z = replace "__cursor__" x
+        . replace "__index__" y
+        . replace "__group__" z
 
-instance ToCursor s Double b where
-    toCursor = return . toJExpr
-
-instance ToCursor s String b where
-    toCursor = return . toJExpr
-
-instance ToCursor s JExpr b where
-    toCursor = return
-
-instance ToCursor s Cursor b where
-
-    toCursor (Const f) =
-        return . toJExpr $ f
-
-    toCursor (Post f) = do
-        curs <- use jCursor
-        return . curs . toJExpr $ f
-
-    toCursor (Pre f) = do
-        curs <- use jCursor
-        return . (replace "__cursor__" . curs $ cursor) . toJExpr $ f
+count :: JMacro a => String -> a -> Int
+count s =
+    f . jtoGADT . jsSaturate Nothing
+    where
+        f :: JMGadt a -> Int
+        f (JMGExpr (ValExpr (JVar (StrI z)))) | z == s = 1
+        f z = J.composOpFold 0 (+) f z
 
 ------------------------------------------------------------------------------

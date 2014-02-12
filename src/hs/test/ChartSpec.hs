@@ -16,6 +16,23 @@ import Utils
 spec :: Spec
 spec = describe "Chart" $ do
 
+    describe "Bar Graph, with records" $ do
+
+        sample "a simple graph, with a record" 
+
+            [Bar 1.0 "red", Bar 0.2 "green", Bar 0.3 "blue"]
+
+            (ThemeChart def coloredBarGraph) 
+
+        sample "a more complicated record graph, with a record" 
+
+            (zipWith Bar 
+                (map ((+ 10) . (*10) . sin . (/5)) (take 15 [0..]))
+                (concat $ repeat ["red", "red", "red", "green", "green", "green", "blue", "blue", "blue"]))
+
+            (ThemeChart def coloredBarGraph) 
+
+
     describe "Bar Graphs" $ do
 
         sample "a simple graph" 

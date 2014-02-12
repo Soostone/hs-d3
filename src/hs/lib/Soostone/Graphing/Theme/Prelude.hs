@@ -42,7 +42,7 @@ withPrelude theme graph = void $ do
                 attr "fill" backColor
     
             append "g" `with` do
-                attr "transform" $ Const $ do
+                attr "transform" $ do
                     translate 0.025 0.025
                     scale 0.95 0.95
 

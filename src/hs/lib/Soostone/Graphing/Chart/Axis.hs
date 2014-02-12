@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 
--- | An implementation of an axis
+-- | An implementation of an xAxis
 
 ------------------------------------------------------------------------------
 
@@ -11,18 +11,20 @@
 
 module Soostone.Graphing.Chart.Axis where
 
+import Control.Lens
+import Control.Monad
 import Language.Javascript.JMacro
 
 import Soostone.Graphing.D3
 
 ------------------------------------------------------------------------------
 
-axis :: GraphT s a JExpr
-axis =
+yAxis :: GraphT s a JExpr
+yAxis =
     append "g" `withT` do
-        attr "class" "axis"
+        attr "class" "yAxis"
 
-        dom <- clamp $ Post cursor
+        dom <- clamp cursor
 
         scal <- linear `with` do
             domain dom
@@ -32,13 +34,53 @@ axis =
             nice
             ticks 10
 
-        selectAll "line.y" `with`
-            bindT ts $ enter `with` do
+        void $ selectAll "line.x" `with`
+            bind ts $ enter `with` do
+
+                jCursor .= id
+
+                _ <- append "text" `with` do
+                    attr "x" scal
+                    attr "y" 0
+                    text $ [jmacroE|
+                        (`(dom)`[1] - `(cursor)`).toFixed(1)
+                    |]
+                    
+                append "line" `with` do
+                    attr "class" "x"
+                    attr "x2" scal
+                    attr "x1" scal
+                    attr "y1" 0
+                    attr "y2" 1
+                    attr "stroke" "grey"
+                    attr "stroke-width" "0.001"
+
+        return [jmacroE| `(scal)`(`(cursor)`) |]
+
+xAxis :: GraphT s a JExpr
+xAxis =
+    append "g" `withT` do
+        attr "class" "xAxis"
+
+        dom <- clamp cursor
+
+        scal <- linear `with` do
+            domain dom
+            range [0, 1]
+
+        ts <- withTarget scal `withT` do
+            nice
+            ticks 10
+
+        void $ selectAll "line.y" `with`
+            bind ts $ enter `with` do
+
+                jCursor .= id
 
                 _ <- append "text" `with` do
                     attr "x" 0
                     attr "y" scal
-                    text $ Post $[jmacroE|
+                    text $ [jmacroE|
                         (`(dom)`[1] - `(cursor)`).toFixed(1)
                     |]
                     
@@ -51,6 +93,6 @@ axis =
                     attr "stroke" "grey"
                     attr "stroke-width" "0.001"
 
-        return scal
+        return [jmacroE| `(scal)`(`(cursor)`) |]
        
 ------------------------------------------------------------------------------

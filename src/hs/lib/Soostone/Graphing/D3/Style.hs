@@ -34,11 +34,11 @@ instance ToJExpr Color where
     toJExpr (RGB a b c) = toJExpr $
         "rgb(" ++ show a ++ "," ++ show b ++ "," ++ show c ++ ")"
 
-instance ToCursor s Color b where
+instance ToCursor s a Color where
     toCursor = return . toJExpr
 
-gradient :: (ToCursor s a c, ToCursor s b c) =>
-    Orientation -> String -> a -> b -> GraphT s c JExpr
+gradient :: (ToCursor s a b, ToCursor s a c) =>
+    Orientation -> String -> b -> c -> GraphT s a JExpr
 
 gradient ori name from to =
 

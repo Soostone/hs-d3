@@ -47,6 +47,7 @@ renderGraphState =
         . replace "__target__" (jsv "d3")
         . replace "__index__" 0
         . replace "__group__" 0
+        . replace "__datum__" (jsv "__cursor__")
         . ($ mempty)
         . view jstat
 

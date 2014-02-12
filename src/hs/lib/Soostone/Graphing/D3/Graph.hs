@@ -23,10 +23,11 @@ import Language.Javascript.JMacro
 -- | State record for use in the `Graph` monad.
 
 data GraphState s = GraphState {
-    _jstat   :: JStat -> JStat,
-    _jCursor :: JExpr -> JExpr,
+    _jstat     :: JStat -> JStat,
+    _jCursor   :: JExpr -> JExpr,
+    _jJoined   :: Bool,
     _userState :: s,
-    _varSeed :: Int
+    _varSeed   :: Int
 } deriving (Functor)
 
 makeLenses ''GraphState
@@ -37,6 +38,7 @@ emptyState :: s -> GraphState s
 emptyState s = GraphState {
     _jstat = id,
     _jCursor = id,
+    _jJoined = False,
     _userState = s,
     _varSeed = 0
 }
@@ -47,8 +49,15 @@ newVar = ("d3_" ++) . show <$> (varSeed <<%= (+1))
 -- | The core data structure representing a graph computation.
 
 newtype GraphT s a b =
-    Graph (State (GraphState s) b)
-    deriving (Monad, Functor, MonadState (GraphState s))
+    Graph { unGraph :: State (GraphState s) b }
+    deriving (Functor, MonadState (GraphState s), Monad)
+
+--instance Monad (GraphT s a) where
+--    (Graph x) >>= f = Graph $ do
+--        x' <- x
+--        unGraph $ f x'
+
+--    return x = Graph $ return x
 
 type Graph = GraphT ()
 
@@ -76,7 +85,7 @@ extract gr = do
     gr' <- gr
     newStat <- use jstat
     seed <- use varSeed
-    put oldSt 
+    put oldSt
     varSeed .= seed
     return (gr', newStat)
 
