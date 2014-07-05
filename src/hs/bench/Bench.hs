@@ -1,9 +1,9 @@
-{-# LANGUAGE DeriveGeneric   #-}
-{-# LANGUAGE ExistentialQuantification   #-}
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE ExtendedDefaultRules  #-}
+{-# LANGUAGE DeriveGeneric             #-}
+{-# LANGUAGE ExistentialQuantification #-}
+{-# LANGUAGE ExtendedDefaultRules      #-}
+{-# LANGUAGE QuasiQuotes               #-}
+{-# LANGUAGE ScopedTypeVariables       #-}
+{-# LANGUAGE TemplateHaskell           #-}
 
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
@@ -11,28 +11,28 @@ module Main where
 
 import Criterion.Main
 
-import Control.Monad
-import System.Directory
-import Control.Exception as E
 import Control.Concurrent
+import Control.Exception          as E
+import Control.Monad
+import Data.FileEmbed
 import Data.Maybe
 import Data.String.Utils
+import Language.Javascript.JMacro
 import Network.HTTP
 import Network.URI
-import System.IO
-import System.Process
+import System.Directory
 import System.Exit
-import Data.FileEmbed
+import System.IO
 import System.IO.Unsafe
-import Language.Javascript.JMacro
+import System.Process
 
-import qualified Data.ByteString as B
+import qualified Data.ByteString       as B
 import qualified Data.ByteString.Char8 as BU
 
 import Soostone.Graphing.Chart
-import Soostone.Graphing.Theme
 import Soostone.Graphing.D3
 import Soostone.Graphing.Repl
+import Soostone.Graphing.Theme
 
 write title a b = do
     handle <- openFile (title ++ ".html") WriteMode
@@ -57,10 +57,10 @@ evalServer = do
     ch <- newEmptyMVar
 
     forkOS $ do
-        
+
         (Nothing, Just std_out', Just std_err', p) <-
             createProcess (proc "phantomjs" ["src/js/test/render.js"]) {
-                std_out = CreatePipe, 
+                std_out = CreatePipe,
                 std_err = CreatePipe,
                 close_fds = True
             }
@@ -80,7 +80,7 @@ evalServer = do
     takeMVar ch
 
 jsServer :: String
-jsServer = BU.unpack $(embedFile "/Users/slink/work/d3.hs/src/js/test/render.js")
+jsServer = BU.unpack $(embedFile "src/js/test/render.js")
 
 data Case = forall a b. ToJExpr a => Case String a (ThemeChart a b)
 
@@ -131,10 +131,10 @@ charts = [
             (ThemeChart def gridBarGraph),
 
     Case "Baanani Theme"
-            
+
             dat
 
-            (ThemeChart banaaniTheme gridBarGraph)  
+            (ThemeChart banaaniTheme gridBarGraph)
 
     ]
 

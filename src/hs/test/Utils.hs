@@ -1,5 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TemplateHaskell     #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -11,20 +11,20 @@ import System.Directory
 import Test.Hspec
 
 
-import Control.Exception as E
 import Control.Concurrent
+import Control.Exception          as E
+import Data.FileEmbed
 import Data.Maybe
+import Language.Javascript.JMacro
 import Network.HTTP
 import Network.URI
-import System.IO
-import System.Process
 import System.Exit
-import Test.HUnit
-import Language.Javascript.JMacro
-import Data.FileEmbed
+import System.IO
 import System.IO.Unsafe
+import System.Process
+import Test.HUnit
 
-import qualified Data.ByteString as B
+import qualified Data.ByteString       as B
 import qualified Data.ByteString.Char8 as BU
 
 
@@ -42,11 +42,11 @@ nodejs js = do
     z <- waitForProcess p
     status <- hGetContents std_out'
     errs <- hGetContents std_err'
-    
+
     case z of
         ExitFailure n -> return $ "FATAL: error code " ++ show n ++ "\n" ++ errs
         ExitSuccess   -> return status
-    
+
 phantomjs :: (ToJExpr a, Render b) => EmbedMode -> String -> a -> b a () -> IO ()
 
 --phantomjs d3 title a b = do
@@ -85,10 +85,10 @@ evalServer = do
     ch <- newEmptyMVar
 
     forkOS $ do
-        
+
         (Nothing, Just std_out', Just std_err', p) <-
             createProcess (proc "phantomjs" ["src/js/test/render.js"]) {
-                std_out = CreatePipe, 
+                std_out = CreatePipe,
                 std_err = CreatePipe,
                 close_fds = True
             }
@@ -108,7 +108,7 @@ evalServer = do
     takeMVar ch
 
 jsServer :: String
-jsServer = BU.unpack $(embedFile "/Users/slink/work/d3.hs/src/js/test/render.js")
+jsServer = BU.unpack $(embedFile "src/js/test/render.js")
 
 
 
@@ -138,7 +138,7 @@ sample title dat source = do
             it ("Should render " ++ title) $ do
                 graph' <- B.readFile "test.png"
                 assertEqual "test" graph' gold
-                
+
         _ -> it ("Writing gold record: " ++ title ++ ";  please rerun suite") $
             inProgress' title dat source pendingWith
 
@@ -151,8 +151,8 @@ sample title dat source = do
 
 inProgress :: (ToJExpr a, Render b) => String -> a -> b a () -> Spec
 inProgress title dat source =
-	it ("In Progress: " ++ title)
-		$ inProgress' title dat source assertFailure
+    it ("In Progress: " ++ title)
+        $ inProgress' title dat source assertFailure
 
 cdnD3 :: EmbedMode
 cdnD3 = Path "http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"

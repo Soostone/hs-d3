@@ -12,17 +12,17 @@ Library
   hs-source-dirs: src/hs/lib
   Build-depends:
     base,
-    bytestring,
-    file-embed               == 0.0.6,
-    interpolatedstring-perl6 >= 0.9.0,
-    jmacro                   >= 0.6.3    && <0.7,
-    lens                     >= 3.9      && < 3.11,
-    mtl                      >= 2.1      && <= 2.2,
-    process                  >= 1.1,
-    regex-compat             == 0.95.1,
-    temporary                == 1.2,
-    wl-pprint-text           == 1.1.0.0,
-    TypeCompose              == 0.9.9
+    bytestring               >= 0.10     && < 0.11,
+    file-embed               >= 0.0      && < 0.1,
+    interpolatedstring-perl6 >= 0.9      && < 0.10,
+    jmacro                   >= 0.6.3    && < 0.7,
+    lens                     >= 3.9      && < 4.3,
+    mtl                      >= 2.1      && < 2.3,
+    process                  >= 1.1      && < 1.2,
+    regex-compat             >= 0.95     && < 0.96,
+    temporary                >= 1.2      && < 1.3,
+    wl-pprint-text           >= 1.1      && < 1.2,
+    TypeCompose              >= 0.9.9    && < 0.10
 
   ghc-options: 
     -Wall -fwarn-tabs -funbox-strict-fields
@@ -63,17 +63,17 @@ Benchmark bench
     base,
     criterion,
     base,
-    bytestring   == 0.10.0.2,
+    bytestring,
     utf8-string,    
-    directory    == 1.2.0.1,
-    MissingH     == 1.2.0.2,
-    file-embed   == 0.0.6,
-    cereal       == 0.4.0.1,
-    HTTP         == 4000.2.8,
-    network      == 2.4.1.2,
-    process      == 1.1.0.2,
-    jmacro       == 0.6.8,
-    lens         == 3.9.0.2,
+    directory,
+    MissingH,
+    file-embed,
+    cereal,
+    HTTP,
+    network,
+    process,
+    jmacro,
+    lens,
     d3hs
 
 Test-Suite spec
@@ -83,15 +83,15 @@ Test-Suite spec
   Main-Is: Spec.hs
   Build-Depends:
     base,
-    bytestring               >= 0.10  && < 0.11,
-    directory                >= 1.2   && < 1.3,
-    file-embed               == 0.0.6,
-    hashable                 >= 1.1   && < 1.3,
+    bytestring               >= 0.10   && < 0.11,
+    directory                >= 1.2    && < 1.3,
+    file-embed               >= 0.0    && < 0.1,
+    hashable                 >= 1.1    && < 1.3,
     hspec                    >= 1.3, 
     HUnit,
-    HTTP                     == 4000.2.8,
-    interpolatedstring-perl6 >= 0.9.0,
-    jmacro                   >= 0.6   && < 0.7,
-    network                  == 2.4.1.2,
-    process                  >= 1.1   && < 1.2,
+    HTTP                     >= 4000.2 && < 4000.3,
+    interpolatedstring-perl6 >= 0.9    && < 0.10,
+    jmacro                   >= 0.6    && < 0.7,
+    network                  >= 2.4    && < 2.5,
+    process                  >= 1.1    && < 1.2,
     d3hs
