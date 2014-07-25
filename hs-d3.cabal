@@ -1,4 +1,4 @@
-Name:          d3hs
+Name:          hs-d3
 Version:       0.1
 Synopsis:      A graphing library wrapping D3.js with JMacro
 Author:        Andrew Stein
