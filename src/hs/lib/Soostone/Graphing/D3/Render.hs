@@ -25,7 +25,12 @@ import Soostone.Graphing.D3.JMacro
 ------------------------------------------------------------------------------
 
 class Render b where
-    render :: ToJExpr a => a -> b a () -> String
+    render :: ToJExpr a
+           => a
+           -- ^ Chart data
+           -> b a ()
+           -- ^ The chart description
+           -> String
 
 instance Render (GraphT ()) where
     render = renderGraph ()
