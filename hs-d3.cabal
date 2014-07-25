@@ -74,7 +74,7 @@ Benchmark bench
     process,
     jmacro,
     lens,
-    d3hs
+    hs-d3
 
 Test-Suite spec
   Type: exitcode-stdio-1.0
@@ -94,4 +94,4 @@ Test-Suite spec
     jmacro                   >= 0.6    && < 0.7,
     network                  >= 2.4    && < 2.5,
     process                  >= 1.1    && < 1.2,
-    d3hs
+    hs-d3
