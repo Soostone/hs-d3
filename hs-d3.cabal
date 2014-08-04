@@ -1,8 +1,10 @@
 Name:          hs-d3
 Version:       0.1
 Synopsis:      A graphing library wrapping D3.js with JMacro
+License:       BSD3
+License-file:  LICENSE
 Author:        Andrew Stein
-Maintainer:    steinlink@gmail.com
+Maintainer:    info@soostone.com
 Stability:     Experimental
 Category:      Graphing
 Build-type:    Simple
