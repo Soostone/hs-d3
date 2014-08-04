@@ -3,3 +3,5 @@ dist/*
 .DS_Store
 tags
 src/obj/test
+.cabal-sandbox
+cabal.sandbox.config
