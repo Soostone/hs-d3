@@ -20,10 +20,12 @@ module Graphics.HSD3.Chart
   , Bar( ..)
   ) where
 
+
+------------------------------------------------------------------------------
 import Control.Lens
 import Control.Monad
 import Language.Javascript.JMacro
-
+------------------------------------------------------------------------------
 import Graphics.HSD3.Chart.Axis
 import Graphics.HSD3.Chart.Base
 import Graphics.HSD3.Chart.Element
@@ -31,11 +33,11 @@ import Graphics.HSD3.Chart.Layout
 import Graphics.HSD3.D3
 import Graphics.HSD3.D3.JMacro
 import Graphics.HSD3.Theme
-
 ------------------------------------------------------------------------------
 
--- | A simple bargraph, suitable for impressing your friends.
 
+------------------------------------------------------------------------------
+-- | A simple bargraph, suitable for impressing your friends.
 barGraph :: Chart [Double] ()
 barGraph = void $ do
 
@@ -54,10 +56,13 @@ barGraph = void $ do
             attr "vector-effect" "non-scaling-stroke"
             anchor Bottom
 
+
+------------------------------------------------------------------------------
 data Bar = Bar { value :: Double, color :: String }
 
--- | TODO this should be auto-generated for records somehow
 
+------------------------------------------------------------------------------
+-- | TODO this should be auto-generated for records somehow
 instance ToJExpr Bar where
     toJExpr b = [jmacroE|
 
@@ -65,16 +70,21 @@ instance ToJExpr Bar where
 
         |]
 
+
+------------------------------------------------------------------------------
 getValue :: JExpr
 getValue =
     [jmacroE| `(cursor)`.value |]
 
+
+------------------------------------------------------------------------------
 getColor :: JExpr
 getColor =
     [jmacroE| `(cursor)`.color |]
 
--- | A colored bar graph designed to work with metadata records
 
+------------------------------------------------------------------------------
+-- | A colored bar graph designed to work with metadata records
 coloredBarGraph :: Chart [Bar] ()
 coloredBarGraph = void $ do
 
@@ -96,16 +106,17 @@ coloredBarGraph = void $ do
                 attr "vector-effect" "non-scaling-stroke"
                 anchor Bottom
 
--- | A vertically stacked bar graph.
 
+------------------------------------------------------------------------------
+-- | A vertically stacked bar graph.
 stackedBarGraph :: Chart [[Double]] ()
 stackedBarGraph =
     void $ splitHorizontal $ pad 0.05 barGraph
 
--- | A grid of bar graphs.
 
+------------------------------------------------------------------------------
+-- | A grid of bar graphs.
 gridBarGraph :: Chart [[[Double]]] ()
 gridBarGraph =
     void $ grid $ pad 0.05 barGraph
 
-------------------------------------------------------------------------------

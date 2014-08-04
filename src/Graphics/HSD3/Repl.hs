@@ -13,51 +13,58 @@ module Graphics.HSD3.Repl
   , EmbedMode( .. )
   ) where
 
-import Control.Concurrent
-import Data.FileEmbed
-import Language.Javascript.JMacro
-import System.Exit
-import System.IO
-import System.IO.Temp
-import System.Process
-import Text.InterpolatedString.Perl6
-
-import qualified Data.ByteString.Char8 as B
-
-import Graphics.HSD3.D3
 
 ------------------------------------------------------------------------------
+import           Control.Concurrent
+import qualified Data.ByteString.Char8         as B
+import           Data.FileEmbed
+import           Language.Javascript.JMacro
+import           System.Exit
+import           System.IO
+import           System.IO.Temp
+import           System.Process
+import           Text.InterpolatedString.Perl6
+------------------------------------------------------------------------------
+import Graphics.HSD3.D3
+------------------------------------------------------------------------------
 
+
+------------------------------------------------------------------------------
 data EmbedMode = Inline | Path String
 
+
+------------------------------------------------------------------------------
 -- | Displays a graph in Chrome on OSX.
-
 graph :: (ToJExpr a, Render b) => a -> b a () -> IO ()
-graph a b =
-    withSystemTempFile "temp.html" $ \file handle -> do
-        writeGraph Inline handle a b
-        hFlush handle
-        exit <- system $ "open " ++ file
-        threadDelay 1000000
-        case exit of
-            ExitFailure _ -> putStrLn "Failed to open browser"
-            ExitSuccess -> return ()
+graph a b = withSystemTempFile "temp.html" $ \file handle -> do
+    writeGraph Inline handle a b
+    hFlush handle
+    exit <- system $ "open " ++ file
+    threadDelay 1000000
+    case exit of
+        ExitFailure _ -> putStrLn "Failed to open browser"
+        ExitSuccess -> return ()
 
+
+------------------------------------------------------------------------------
 -- | Writes a `Chart` to an HTML file.
-
-writeGraph :: (ToJExpr a, Render b) => EmbedMode -> Handle -> a -> b a () -> IO ()
+writeGraph
+    :: (ToJExpr a, Render b)
+    => EmbedMode
+    -> Handle
+    -> a
+    -> b a ()
+    -> IO ()
 writeGraph d3 file a b =
-    hPutStr file
-        . wrapHTML d3Text
-        . render a
-        $ b
-    where
-        d3Text = case d3 of
-            Inline -> "<script>" ++ d3lib ++ "</script>"
-            Path x -> "<script src=\"" ++ x ++ "\"></script>"
+    hPutStr file $ wrapHTML d3Text $ render a b
+  where
+    d3Text = case d3 of
+        Inline -> "<script>" ++ d3lib ++ "</script>"
+        Path x -> "<script src=\"" ++ x ++ "\"></script>"
 
+
+------------------------------------------------------------------------------
 -- | Appends the basic HTML necessary to bootstrap a graph into the browser.
-
 wrapHTML :: String -> String -> String
 wrapHTML d3 js = [qq|
 
@@ -90,7 +97,8 @@ wrapHTML d3 js = [qq|
 
 |]
 
+
+------------------------------------------------------------------------------
 d3lib :: String
 d3lib = B.unpack $(embedFile "lib/js/d3.v2.min.js")
 
-------------------------------------------------------------------------------

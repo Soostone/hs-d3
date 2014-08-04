@@ -16,16 +16,18 @@ module Graphics.HSD3.Theme
   , banaaniTheme
   ) where
 
-import Control.Monad
 
+------------------------------------------------------------------------------
+import Control.Monad
+------------------------------------------------------------------------------
 import Graphics.HSD3.D3
 import Graphics.HSD3.Theme.Base
 import Graphics.HSD3.Theme.Prelude
-
 ------------------------------------------------------------------------------
 
--- | Rainbow
 
+------------------------------------------------------------------------------
+-- | Rainbow
 rainbowTheme :: Theme a
 rainbowTheme = def {
 
@@ -44,9 +46,9 @@ rainbowTheme = def {
 }
 
 
+------------------------------------------------------------------------------
 -- | Colorful Banaani
 --   http://www.colourlovers.com/palette/1606220/colorful_banaani
-
 banaaniTheme :: Theme a
 banaaniTheme = def {
 
@@ -68,4 +70,3 @@ banaaniTheme = def {
     }
 }
 
-------------------------------------------------------------------------------
