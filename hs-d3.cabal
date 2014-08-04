@@ -9,7 +9,7 @@ Build-type:    Simple
 Cabal-version: >=1.8
 
 Library
-  hs-source-dirs: src/hs/lib
+  hs-source-dirs: src
   Build-depends:
     base,
     bytestring               >= 0.10     && < 0.11,
@@ -30,29 +30,29 @@ Library
     -fno-warn-type-defaults
 
   exposed-modules:  
-    Soostone.Graphing
-    Soostone.Graphing.D3
-    Soostone.Graphing.D3.Cursor
-    Soostone.Graphing.D3.Selection
-    Soostone.Graphing.D3.Graph
-    Soostone.Graphing.D3.JMacro
-    Soostone.Graphing.D3.Render
-    Soostone.Graphing.D3.Style
-    Soostone.Graphing.D3.Scope
-    Soostone.Graphing.D3.Transform
-    Soostone.Graphing.Chart
-    Soostone.Graphing.Chart.Axis
-    Soostone.Graphing.Chart.Base
-    Soostone.Graphing.Chart.Element
-    Soostone.Graphing.Chart.Layout
-    Soostone.Graphing.Repl
-    Soostone.Graphing.Theme
-    Soostone.Graphing.Theme.Base
-    Soostone.Graphing.Theme.Prelude
+    Graphics.HSD3
+    Graphics.HSD3.D3
+    Graphics.HSD3.D3.Cursor
+    Graphics.HSD3.D3.Selection
+    Graphics.HSD3.D3.Graph
+    Graphics.HSD3.D3.JMacro
+    Graphics.HSD3.D3.Render
+    Graphics.HSD3.D3.Style
+    Graphics.HSD3.D3.Scope
+    Graphics.HSD3.D3.Transform
+    Graphics.HSD3.Chart
+    Graphics.HSD3.Chart.Axis
+    Graphics.HSD3.Chart.Base
+    Graphics.HSD3.Chart.Element
+    Graphics.HSD3.Chart.Layout
+    Graphics.HSD3.Repl
+    Graphics.HSD3.Theme
+    Graphics.HSD3.Theme.Base
+    Graphics.HSD3.Theme.Prelude
 
 Benchmark bench
   Type: exitcode-stdio-1.0
-  Hs-Source-Dirs: src/hs/bench
+  Hs-Source-Dirs: bench
   Main-Is: Bench.hs
   ghc-options: 
     -Wall -fwarn-tabs -funbox-strict-fields
@@ -78,7 +78,7 @@ Benchmark bench
 
 Test-Suite spec
   Type: exitcode-stdio-1.0
-  Hs-Source-Dirs: src/hs/test
+  Hs-Source-Dirs: test/suite
   Ghc-Options: -Wall -threaded -fbreak-on-exception
   Main-Is: Spec.hs
   Build-Depends:

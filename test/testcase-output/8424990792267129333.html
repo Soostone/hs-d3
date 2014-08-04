@@ -1,0 +1,54 @@
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
+    </style>
+
+    <script> window.onload = (function()
+                 {
+                   var __cursor__;
+                   __cursor__ = [];
+                   var jmId_4 = d3.select("body");
+                   var jmId_7 = jmId_4.append("svg");
+                   jmId_7.attr("width", 640);
+                   jmId_7.attr("height", 480);
+                   var jmId_10 = jmId_7.append("rect");
+                   jmId_10.attr("x", 0);
+                   jmId_10.attr("y", 0);
+                   jmId_10.attr("width", 100);
+                   jmId_10.attr("height", 100);
+                   jmId_10.attr("fill", "black");
+                   jmId_10.attr("transform", ["scale(", 0.5, ",", 0.1, ")", "scale(", 2.0, ",", 10, ")"].join(" "));
+                   var jmId_13 = d3.selectAll("svg");
+                   var jmId_14 = d3.selectAll("text");
+                   window.onresize = (function()
+                                      {
+                                        var jmId_15 = parseFloat(jmId_13.style("height"));
+                                        var jmId_16 = parseFloat(jmId_13.style("width"));
+                                        var jmId_17 = (12 / jmId_15);
+                                        jmId_14.style("font-size", jmId_17).attr("transform", (("scale(" + (jmId_15 / jmId_16)) + ", 1)"));
+                                      });
+                   window.onresize();
+                 }); </script>
+

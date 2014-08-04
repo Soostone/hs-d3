@@ -1,0 +1,122 @@
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
+    </style>
+
+    <script> window.onload = (function()
+                 {
+                   var __cursor__;
+                   __cursor__ = [{ 'color': "red", 'value': 1.0
+                                 }, { 'color': "green", 'value': 0.2
+                                    }, { 'color': "blue", 'value': 0.3
+                                       }];
+                   var jmId_4 = d3.select("body");
+                   var jmId_7 = jmId_4.append("svg");
+                   jmId_7.attr("viewBox", "0 0 1 1");
+                   jmId_7.attr("preserveAspectRatio", "none");
+                   jmId_7.attr("width", "100%");
+                   jmId_7.attr("height", "100%");
+                   var jmId_10 = jmId_7.append("defs");
+                   var jmId_13 = jmId_7.append("rect");
+                   jmId_13.attr("x", 0);
+                   jmId_13.attr("y", 0);
+                   jmId_13.attr("width", 1);
+                   jmId_13.attr("height", 1);
+                   jmId_13.attr("fill", "white");
+                   var jmId_16 = jmId_7.append("g");
+                   jmId_16.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
+                   var jmId_19 = jmId_16.append("g");
+                   jmId_19.attr("class", "xAxis");
+                   var jmId_25 = [0, d3.max(__cursor__, (function(jmId_27, jmId_28, jmId_29)
+                                                     {
+                                                       return jmId_27.value;
+                                                     }))];
+                   var jmId_35 = d3.scale.linear();
+                   jmId_35.domain(jmId_25);
+                   jmId_35.range([0, 1]);
+                   var jmId_41 = jmId_35;
+                   jmId_41.nice();
+                   var jmId_46 = jmId_41.ticks(10);
+                   var jmId_51 = jmId_19.selectAll("line.y");
+                   var jmId_55 = jmId_51.data(jmId_46);
+                   var jmId_61 = jmId_55.enter();
+                   var jmId_66 = jmId_61.append("text");
+                   jmId_66.attr("x", 0);
+                   jmId_66.attr("y", jmId_35);
+                   jmId_66.text((function(jmId_70, jmId_71, jmId_72)
+                                 {
+                                   return (jmId_25[1] - jmId_70).toFixed(1);
+                                 }));
+                   var jmId_76 = jmId_61.append("line");
+                   jmId_76.attr("class", "y");
+                   jmId_76.attr("x2", 1);
+                   jmId_76.attr("x1", 0);
+                   jmId_76.attr("y1", jmId_35);
+                   jmId_76.attr("y2", jmId_35);
+                   jmId_76.attr("stroke", "grey");
+                   jmId_76.attr("stroke-width", "0.001");
+                   var jmId_81 = jmId_16.append("g");
+                   jmId_81.attr("transform", ["translate(", 5.0e-2, ",", 0.0, ")", "scale(", 0.95, ",", 1.0, ")"].join(" "));
+                   var jmId_84 = jmId_81.selectAll("g");
+                   var jmId_87 = jmId_84.data(__cursor__);
+                   var jmId_90 = jmId_87.enter();
+                   var jmId_94 = jmId_90.append("g");
+                   jmId_94.attr("transform", (function(jmId_98, jmId_99, jmId_100)
+                                              {
+                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_94.data()).length), ",", 1, ")", "translate(", jmId_99, ",", 0, ")"].join(" ");
+                                              }));
+                   var jmId_104 = jmId_94.append("rect");
+                   jmId_104.attr("x", 0);
+                   jmId_104.attr("y", 0);
+                   jmId_104.attr("width", 1);
+                   jmId_104.attr("height", 1);
+                   jmId_104.attr("fill", (function(jmId_110, jmId_111, jmId_112)
+                                          {
+                                            return jmId_110.color;
+                                          }));
+                   jmId_104.attr("stroke", "#000000");
+                   jmId_104.attr("stroke-width", 1);
+                   jmId_104.attr("vector-effect", "non-scaling-stroke");
+                   jmId_104.attr("y", (function(jmId_123, jmId_124, jmId_125)
+                                       {
+                                         return (1 - jmId_35(jmId_123.value));
+                                       }));
+                   jmId_104.attr("width", 1);
+                   jmId_104.attr("height", (function(jmId_134, jmId_135, jmId_136)
+                                            {
+                                              return jmId_35(jmId_134.value);
+                                            }));
+                   var jmId_143 = d3.selectAll("svg");
+                   var jmId_144 = d3.selectAll("text");
+                   window.onresize = (function()
+                                      {
+                                        var jmId_145 = parseFloat(jmId_143.style("height"));
+                                        var jmId_146 = parseFloat(jmId_143.style("width"));
+                                        var jmId_147 = (12 / jmId_145);
+                                        jmId_144.style("font-size", jmId_147).attr("transform", (("scale(" + (jmId_145 / jmId_146)) + ", 1)"));
+                                      });
+                   window.onresize();
+                 }); </script>
+

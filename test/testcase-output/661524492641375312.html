@@ -1,0 +1,197 @@
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
+    </style>
+
+    <script> window.onload = (function()
+                 {
+                   var __cursor__;
+                   __cursor__ = [1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6, 0.4, 0.8, 1.0, 0.5, 0.25, 0.7, 0.9, 0.76, 0.2, 0.3, 0.1, 1.0, 0.6];
+                   var jmId_4 = d3.select("body");
+                   var jmId_7 = jmId_4.append("svg");
+                   jmId_7.attr("viewBox", "0 0 1 1");
+                   jmId_7.attr("preserveAspectRatio", "none");
+                   jmId_7.attr("width", "100%");
+                   jmId_7.attr("height", "100%");
+                   var jmId_10 = jmId_7.append("defs");
+                   var jmId_13 = jmId_10.append("linearGradient");
+                   jmId_13.attr("id", "fourth");
+                   jmId_13.attr("x1", "0%");
+                   jmId_13.attr("y1", "0%");
+                   jmId_13.attr("x2", "0%");
+                   jmId_13.attr("y2", "100%");
+                   jmId_13.attr("spreadMethod", "pad");
+                   var jmId_16 = jmId_13.append("stop");
+                   jmId_16.attr("offset", "0%");
+                   jmId_16.attr("stop-color", "rgb(223,214,191)");
+                   jmId_16.attr("stop-opacity", 1);
+                   var jmId_19 = jmId_13.append("stop");
+                   jmId_19.attr("offset", "100%");
+                   jmId_19.attr("stop-color", "rgb(193,185,165)");
+                   jmId_19.attr("stop-opacity", 1);
+                   var jmId_22 = jmId_10.append("linearGradient");
+                   jmId_22.attr("id", "fifth");
+                   jmId_22.attr("x1", "0%");
+                   jmId_22.attr("y1", "0%");
+                   jmId_22.attr("x2", "0%");
+                   jmId_22.attr("y2", "100%");
+                   jmId_22.attr("spreadMethod", "pad");
+                   var jmId_25 = jmId_22.append("stop");
+                   jmId_25.attr("offset", "0%");
+                   jmId_25.attr("stop-color", "rgb(150,186,175)");
+                   jmId_25.attr("stop-opacity", 1);
+                   var jmId_28 = jmId_22.append("stop");
+                   jmId_28.attr("offset", "100%");
+                   jmId_28.attr("stop-color", "rgb(131,162,153)");
+                   jmId_28.attr("stop-opacity", 1);
+                   var jmId_31 = jmId_10.append("linearGradient");
+                   jmId_31.attr("id", "first");
+                   jmId_31.attr("x1", "0%");
+                   jmId_31.attr("y1", "0%");
+                   jmId_31.attr("x2", "0%");
+                   jmId_31.attr("y2", "100%");
+                   jmId_31.attr("spreadMethod", "pad");
+                   var jmId_34 = jmId_31.append("stop");
+                   jmId_34.attr("offset", "0%");
+                   jmId_34.attr("stop-color", "rgb(150,186,175)");
+                   jmId_34.attr("stop-opacity", 1);
+                   var jmId_37 = jmId_31.append("stop");
+                   jmId_37.attr("offset", "100%");
+                   jmId_37.attr("stop-color", "rgb(131,162,153)");
+                   jmId_37.attr("stop-opacity", 1);
+                   var jmId_40 = jmId_10.append("linearGradient");
+                   jmId_40.attr("id", "second");
+                   jmId_40.attr("x1", "0%");
+                   jmId_40.attr("y1", "0%");
+                   jmId_40.attr("x2", "0%");
+                   jmId_40.attr("y2", "100%");
+                   jmId_40.attr("spreadMethod", "pad");
+                   var jmId_43 = jmId_40.append("stop");
+                   jmId_43.attr("offset", "0%");
+                   jmId_43.attr("stop-color", "rgb(230,101,67)");
+                   jmId_43.attr("stop-opacity", 1);
+                   var jmId_46 = jmId_40.append("stop");
+                   jmId_46.attr("offset", "100%");
+                   jmId_46.attr("stop-color", "rgb(200,88,58)");
+                   jmId_46.attr("stop-opacity", 1);
+                   var jmId_49 = jmId_10.append("linearGradient");
+                   jmId_49.attr("id", "third");
+                   jmId_49.attr("x1", "0%");
+                   jmId_49.attr("y1", "0%");
+                   jmId_49.attr("x2", "0%");
+                   jmId_49.attr("y2", "100%");
+                   jmId_49.attr("spreadMethod", "pad");
+                   var jmId_52 = jmId_49.append("stop");
+                   jmId_52.attr("offset", "0%");
+                   jmId_52.attr("stop-color", "rgb(196,47,52)");
+                   jmId_52.attr("stop-opacity", 1);
+                   var jmId_55 = jmId_49.append("stop");
+                   jmId_55.attr("offset", "100%");
+                   jmId_55.attr("stop-color", "rgb(171,41,46)");
+                   jmId_55.attr("stop-opacity", 1);
+                   var jmId_58 = jmId_7.append("rect");
+                   jmId_58.attr("x", 0);
+                   jmId_58.attr("y", 0);
+                   jmId_58.attr("width", 1);
+                   jmId_58.attr("height", 1);
+                   jmId_58.attr("fill", ["url(#fourth)"][(0 % 1)]);
+                   var jmId_61 = jmId_7.append("g");
+                   jmId_61.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
+                   var jmId_64 = jmId_61.append("g");
+                   jmId_64.attr("class", "xAxis");
+                   var jmId_68 = [0, d3.max(__cursor__, (function(jmId_69, jmId_70, jmId_71)
+                                                     {
+                                                       return jmId_69;
+                                                     }))];
+                   var jmId_76 = d3.scale.linear();
+                   jmId_76.domain(jmId_68);
+                   jmId_76.range([0, 1]);
+                   var jmId_79 = jmId_76;
+                   jmId_79.nice();
+                   var jmId_83 = jmId_79.ticks(10);
+                   var jmId_86 = jmId_64.selectAll("line.y");
+                   var jmId_89 = jmId_86.data(jmId_83);
+                   var jmId_93 = jmId_89.enter();
+                   var jmId_97 = jmId_93.append("text");
+                   jmId_97.attr("x", 0);
+                   jmId_97.attr("y", jmId_76);
+                   jmId_97.text((function(jmId_101, jmId_102, jmId_103)
+                                 {
+                                   return (jmId_68[1] - jmId_101).toFixed(1);
+                                 }));
+                   var jmId_107 = jmId_93.append("line");
+                   jmId_107.attr("class", "y");
+                   jmId_107.attr("x2", 1);
+                   jmId_107.attr("x1", 0);
+                   jmId_107.attr("y1", jmId_76);
+                   jmId_107.attr("y2", jmId_76);
+                   jmId_107.attr("stroke", "grey");
+                   jmId_107.attr("stroke-width", "0.001");
+                   var jmId_112 = jmId_61.append("g");
+                   jmId_112.attr("transform", ["translate(", 5.0e-2, ",", 0.0, ")", "scale(", 0.95, ",", 1.0, ")"].join(" "));
+                   var jmId_115 = jmId_112.selectAll("g");
+                   var jmId_118 = jmId_115.data(__cursor__);
+                   var jmId_121 = jmId_118.enter();
+                   var jmId_125 = jmId_121.append("g");
+                   jmId_125.attr("transform", (function(jmId_129, jmId_130, jmId_131)
+                                               {
+                                                 return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_125.data()).length), ",", 1, ")", "translate(", jmId_130, ",", 0, ")"].join(" ");
+                                               }));
+                   var jmId_135 = jmId_125.append("rect");
+                   jmId_135.attr("x", 0);
+                   jmId_135.attr("y", 0);
+                   jmId_135.attr("width", 1);
+                   jmId_135.attr("height", 1);
+                   jmId_135.attr("fill", (function(jmId_141, jmId_142, jmId_143)
+                                          {
+                                            return ["url(#first)", "url(#second)", "url(#third)"][(jmId_142 % 3)];
+                                          }));
+                   jmId_135.attr("stroke", (function(jmId_148, jmId_149, jmId_150)
+                                            {
+                                              return ["rgb(131,162,153)", "rgb(200,88,58)", "rgb(171,41,46)"][(jmId_149 % 3)];
+                                            }));
+                   jmId_135.attr("stroke-width", 1);
+                   jmId_135.attr("vector-effect", "non-scaling-stroke");
+                   jmId_135.attr("y", (function(jmId_157, jmId_158, jmId_159)
+                                       {
+                                         return (1 - jmId_76(jmId_157));
+                                       }));
+                   jmId_135.attr("width", 1);
+                   jmId_135.attr("height", (function(jmId_166, jmId_167, jmId_168)
+                                            {
+                                              return jmId_76(jmId_166);
+                                            }));
+                   var jmId_174 = d3.selectAll("svg");
+                   var jmId_175 = d3.selectAll("text");
+                   window.onresize = (function()
+                                      {
+                                        var jmId_176 = parseFloat(jmId_174.style("height"));
+                                        var jmId_177 = parseFloat(jmId_174.style("width"));
+                                        var jmId_178 = (12 / jmId_176);
+                                        jmId_175.style("font-size", jmId_178).attr("transform", (("scale(" + (jmId_176 / jmId_177)) + ", 1)"));
+                                      });
+                   window.onresize();
+                 }); </script>
+

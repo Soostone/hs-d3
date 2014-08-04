@@ -1,0 +1,119 @@
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
+    </style>
+
+    <script> window.onload = (function()
+                 {
+                   var __cursor__;
+                   __cursor__ = [10.0, 11.986693307950611, 13.894183423086506, 15.646424733950354, 17.173560908995228, 18.414709848078964, 19.320390859672262, 19.8544972998846, 19.995736030415053, 19.73847630878195, 19.092974268256818, 18.0849640381959, 16.754631805511508, 15.155013718214642, 13.34988150155905, 11.411200080598672, 9.416258565724199, 7.444588979731687, 5.574795567051475, 3.881421090572811, 2.4319750469207175, 1.2842422758641199, 0.4839792611048388, 6.308996366535524e-2,
+                   3.8353911641593186e-2, 0.41075725336861524, 1.1654534427984693, 2.2723551244401285, 3.6873336212767835, 5.353978205862426, 7.205845018010741, 9.169105971825037, 11.165492048504937, 13.115413635133779, 14.941133511386083, 16.56986598718789, 17.936678638491532, 18.98708095811627, 19.679196720314863, 19.985433453746047, 19.893582466233816, 19.40730556679773, 18.545989080882805, 17.343970978741133, 15.849171928917617, 14.121184852417567, 12.228899141002476, 10.247754254533577,
+                   8.256732187770204, 6.335208707480716, 4.559788891106301, 3.0012531240645757, 1.7217353091434635, 0.7722457838719343, 0.19063769933508468, 9.793449296502388e-5, 0.20822270848682578, 0.8067147433532433, 1.7717140503129123, 3.064749152228776, 4.634270819995651, 6.417707177631713, 8.343958245516905, 10.336230472211367, 12.315098251015389, 14.20167036826641, 15.92073514707223, 17.403758899524487, 18.591618148564958, 19.436956694441047, 19.906073556948705, 19.980266527163618,
+                   19.656577765492777, 18.947911721405042, 17.882520673753163];
+                   var jmId_4 = d3.select("body");
+                   var jmId_7 = jmId_4.append("svg");
+                   jmId_7.attr("viewBox", "0 0 1 1");
+                   jmId_7.attr("preserveAspectRatio", "none");
+                   jmId_7.attr("width", "100%");
+                   jmId_7.attr("height", "100%");
+                   var jmId_10 = jmId_7.append("defs");
+                   var jmId_13 = jmId_7.append("rect");
+                   jmId_13.attr("x", 0);
+                   jmId_13.attr("y", 0);
+                   jmId_13.attr("width", 1);
+                   jmId_13.attr("height", 1);
+                   jmId_13.attr("fill", "white");
+                   var jmId_16 = jmId_7.append("g");
+                   jmId_16.attr("transform", ["translate(", 2.5e-2, ",", 2.5e-2, ")", "scale(", 0.95, ",", 0.95, ")"].join(" "));
+                   var jmId_19 = jmId_16.append("g");
+                   jmId_19.attr("class", "xAxis");
+                   var jmId_23 = [0, d3.max(__cursor__, (function(jmId_24, jmId_25, jmId_26)
+                                                     {
+                                                       return jmId_24;
+                                                     }))];
+                   var jmId_31 = d3.scale.linear();
+                   jmId_31.domain(jmId_23);
+                   jmId_31.range([0, 1]);
+                   var jmId_34 = jmId_31;
+                   jmId_34.nice();
+                   var jmId_38 = jmId_34.ticks(10);
+                   var jmId_41 = jmId_19.selectAll("line.y");
+                   var jmId_44 = jmId_41.data(jmId_38);
+                   var jmId_48 = jmId_44.enter();
+                   var jmId_52 = jmId_48.append("text");
+                   jmId_52.attr("x", 0);
+                   jmId_52.attr("y", jmId_31);
+                   jmId_52.text((function(jmId_56, jmId_57, jmId_58)
+                                 {
+                                   return (jmId_23[1] - jmId_56).toFixed(1);
+                                 }));
+                   var jmId_62 = jmId_48.append("line");
+                   jmId_62.attr("class", "y");
+                   jmId_62.attr("x2", 1);
+                   jmId_62.attr("x1", 0);
+                   jmId_62.attr("y1", jmId_31);
+                   jmId_62.attr("y2", jmId_31);
+                   jmId_62.attr("stroke", "grey");
+                   jmId_62.attr("stroke-width", "0.001");
+                   var jmId_67 = jmId_16.append("g");
+                   jmId_67.attr("transform", ["translate(", 5.0e-2, ",", 0.0, ")", "scale(", 0.95, ",", 1.0, ")"].join(" "));
+                   var jmId_70 = jmId_67.selectAll("g");
+                   var jmId_73 = jmId_70.data(__cursor__);
+                   var jmId_76 = jmId_73.enter();
+                   var jmId_80 = jmId_76.append("g");
+                   jmId_80.attr("transform", (function(jmId_84, jmId_85, jmId_86)
+                                              {
+                                                return ["scale(", (1 / (d3.select(this.parentNode).datum() || jmId_80.data()).length), ",", 1, ")", "translate(", jmId_85, ",", 0, ")"].join(" ");
+                                              }));
+                   var jmId_90 = jmId_80.append("rect");
+                   jmId_90.attr("x", 0);
+                   jmId_90.attr("y", 0);
+                   jmId_90.attr("width", 1);
+                   jmId_90.attr("height", 1);
+                   jmId_90.attr("fill", "#99B2B7");
+                   jmId_90.attr("stroke", "#000000");
+                   jmId_90.attr("stroke-width", 1);
+                   jmId_90.attr("vector-effect", "non-scaling-stroke");
+                   jmId_90.attr("y", (function(jmId_100, jmId_101, jmId_102)
+                                      {
+                                        return (1 - jmId_31(jmId_100));
+                                      }));
+                   jmId_90.attr("width", 1);
+                   jmId_90.attr("height", (function(jmId_109, jmId_110, jmId_111)
+                                           {
+                                             return jmId_31(jmId_109);
+                                           }));
+                   var jmId_117 = d3.selectAll("svg");
+                   var jmId_118 = d3.selectAll("text");
+                   window.onresize = (function()
+                                      {
+                                        var jmId_119 = parseFloat(jmId_117.style("height"));
+                                        var jmId_120 = parseFloat(jmId_117.style("width"));
+                                        var jmId_121 = (12 / jmId_119);
+                                        jmId_118.style("font-size", jmId_121).attr("transform", (("scale(" + (jmId_119 / jmId_120)) + ", 1)"));
+                                      });
+                   window.onresize();
+                 }); </script>
+

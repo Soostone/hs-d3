@@ -1,0 +1,102 @@
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .domain {
+            fill: none;
+        }
+
+        .tick line {
+            stroke-width: 0.001;
+            stroke: grey;
+        }
+
+        text {
+            font-size: 0.02;
+            fill: grey;
+            font-family: Helvetica;
+
+        }
+    </style>
+
+    <script> window.onload = (function()
+                 {
+                   var __cursor__;
+                   __cursor__ = [];
+                   var jmId_4 = d3.select("body");
+                   var jmId_7 = jmId_4.append("svg");
+                   var jmId_10 = jmId_7.append("defs");
+                   var jmId_13 = jmId_10.append("filter");
+                   jmId_13.attr("id", "test-shadow");
+                   jmId_13.attr("height", "130%");
+                   var jmId_16 = jmId_13.append("feGaussianBlur");
+                   jmId_16.attr("in", "SourceAlpha");
+                   jmId_16.attr("stdDeviation", 5);
+                   jmId_16.attr("result", "blur");
+                   var jmId_19 = jmId_13.append("feOffset");
+                   jmId_19.attr("in", "blur");
+                   jmId_19.attr("dx", 5);
+                   jmId_19.attr("dy", 5);
+                   jmId_19.attr("result", "offsetBlur");
+                   var jmId_22 = jmId_13.append("feMerge");
+                   var jmId_25 = jmId_22.append("feMergeNode");
+                   jmId_25.attr("in", "offsetBlur");
+                   var jmId_28 = jmId_22.append("feMergeNode");
+                   jmId_28.attr("in", "SourceGraphic");
+                   var jmId_31 = jmId_10.append("linearGradient");
+                   jmId_31.attr("id", "test-gradient");
+                   jmId_31.attr("x1", "0%");
+                   jmId_31.attr("y1", "0%");
+                   jmId_31.attr("x2", "0%");
+                   jmId_31.attr("y2", "100%");
+                   jmId_31.attr("spreadMethod", "pad");
+                   var jmId_34 = jmId_31.append("stop");
+                   jmId_34.attr("offset", "0%");
+                   jmId_34.attr("stop-color", "rgb(200,100,0)");
+                   jmId_34.attr("stop-opacity", 1);
+                   var jmId_37 = jmId_31.append("stop");
+                   jmId_37.attr("offset", "100%");
+                   jmId_37.attr("stop-color", "rgb(0,100,200)");
+                   jmId_37.attr("stop-opacity", 1);
+                   var jmId_40 = jmId_10.append("linearGradient");
+                   jmId_40.attr("id", "test-gradient2");
+                   jmId_40.attr("x1", "0%");
+                   jmId_40.attr("y1", "0%");
+                   jmId_40.attr("x2", "100%");
+                   jmId_40.attr("y2", "0%");
+                   jmId_40.attr("spreadMethod", "pad");
+                   var jmId_43 = jmId_40.append("stop");
+                   jmId_43.attr("offset", "0%");
+                   jmId_43.attr("stop-color", "rgb(200,100,0)");
+                   jmId_43.attr("stop-opacity", 1);
+                   var jmId_46 = jmId_40.append("stop");
+                   jmId_46.attr("offset", "100%");
+                   jmId_46.attr("stop-color", "rgb(0,100,200)");
+                   jmId_46.attr("stop-opacity", 1);
+                   jmId_7.attr("width", 640);
+                   jmId_7.attr("height", 480);
+                   var jmId_49 = jmId_7.append("rect");
+                   jmId_49.attr("x", 100);
+                   jmId_49.attr("y", 100);
+                   jmId_49.attr("width", 100);
+                   jmId_49.attr("height", 100);
+                   jmId_49.attr("fill", "lightblue");
+                   jmId_49.style("fill", "url(#test-gradient2)");
+                   var jmId_52 = d3.selectAll("svg");
+                   var jmId_53 = d3.selectAll("text");
+                   window.onresize = (function()
+                                      {
+                                        var jmId_54 = parseFloat(jmId_52.style("height"));
+                                        var jmId_55 = parseFloat(jmId_52.style("width"));
+                                        var jmId_56 = (12 / jmId_54);
+                                        jmId_53.style("font-size", jmId_56).attr("transform", (("scale(" + (jmId_54 / jmId_55)) + ", 1)"));
+                                      });
+                   window.onresize();
+                 }); </script>
+
