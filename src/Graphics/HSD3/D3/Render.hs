@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 
--- | This is the main interface, only file you shold need to import for REPL
+-- | This is the main interface, the only file you should need to import for REPL
 
 ------------------------------------------------------------------------------
 
