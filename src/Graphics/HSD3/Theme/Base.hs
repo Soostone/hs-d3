@@ -71,9 +71,9 @@ cycl expr xs = [jmacroE|
 
 defaultSize :: GraphT s a ()
 defaultSize = do
-    attr "x" 0
-    attr "y" 0
-    attr "width" 1
-    attr "height" 1
+    attr "x" (0 :: Double)
+    attr "y" (0 :: Double)
+    attr "width" (1 :: Double)
+    attr "height" (1 :: Double)
 
 ------------------------------------------------------------------------------

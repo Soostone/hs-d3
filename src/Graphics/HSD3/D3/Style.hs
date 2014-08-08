@@ -60,12 +60,12 @@ gradient ori name from to =
         append "stop" `with` do
             attr "offset" "0%"
             attr "stop-color" from
-            attr "stop-opacity" 1
+            attr "stop-opacity" (1 :: Double)
 
         append "stop" `with`do
             attr "offset" "100%"
             attr "stop-color" to
-            attr "stop-opacity" 1
+            attr "stop-opacity" (1 :: Double)
 
 dropShadow :: String -> GraphT s a JExpr
 dropShadow name =
@@ -76,13 +76,13 @@ dropShadow name =
 
         append "feGaussianBlur" `with` do
             attr "in" "SourceAlpha"
-            attr "stdDeviation" 5
+            attr "stdDeviation" (5 :: Double)
             attr "result" "blur"
 
         append "feOffset" `with` do
             attr "in" "blur"
-            attr "dx" 5
-            attr "dy" 5
+            attr "dx" (5 :: Double)
+            attr "dy" (5 :: Double)
             attr "result" "offsetBlur"
 
         append "feMerge" `with` do
