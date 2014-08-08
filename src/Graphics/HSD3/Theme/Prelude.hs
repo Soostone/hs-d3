@@ -34,10 +34,10 @@ withPrelude theme graph = void $ do
             attr "height" "100%"
 
 
-            append "defs" `with`
+            void $ append "defs" `with`
                 themeDefs (defs theme)
 
-            append "rect" `with` do
+            void $ append "rect" `with` do
                 defaultSize
                 attr "fill" backColor
 

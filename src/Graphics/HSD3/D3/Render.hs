@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 
--- | This is the main interface, only file you shold need to import for REPL
+-- | This is the main interface, the only file you should need to import for REPL
 
 ------------------------------------------------------------------------------
 
@@ -73,13 +73,13 @@ onload js = [jmacro|
         `(js)`;
 
         var svg  = d3.selectAll("svg");
-        var text = d3.selectAll("text");
+        var txt = d3.selectAll("text");
 
         window.onresize = function() {
             var height = parseFloat(svg.style("height"));
             var width  = parseFloat(svg.style("width"));
             var scalar = 12 / height;
-            text.style("font-size", scalar).attr("transform", "scale(" + (height / width) + ", 1)");
+            txt.style("font-size", scalar).attr("transform", "scale(" + (height / width) + ", 1)");
         };
         window.onresize();
     };

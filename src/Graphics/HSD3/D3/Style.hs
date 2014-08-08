@@ -13,6 +13,8 @@
 
 module Graphics.HSD3.D3.Style where
 
+import Control.Monad
+
 import Language.Javascript.JMacro
 
 import Graphics.HSD3.D3.Cursor
@@ -42,7 +44,7 @@ gradient :: (ToCursor s a b, ToCursor s a c) =>
 
 gradient ori name from to =
 
-    append "linearGradient" `with` do
+ append "linearGradient" `with` do
         attr "id" name
         attr "x1" "0%"
         attr "y1" "0%"
@@ -57,15 +59,15 @@ gradient ori name from to =
 
         attr "spreadMethod" "pad"
 
-        append "stop" `with` do
+        void $ append "stop" `with` do
             attr "offset" "0%"
             attr "stop-color" from
-            attr "stop-opacity" 1
+            attr "stop-opacity" (1 :: Double)
 
-        append "stop" `with`do
+        void $ append "stop" `with`do
             attr "offset" "100%"
             attr "stop-color" to
-            attr "stop-opacity" 1
+            attr "stop-opacity" (1 :: Double)
 
 dropShadow :: String -> GraphT s a JExpr
 dropShadow name =
@@ -74,23 +76,23 @@ dropShadow name =
         attr "id" name
         attr "height" "130%"
 
-        append "feGaussianBlur" `with` do
+        void $ append "feGaussianBlur" `with` do
             attr "in" "SourceAlpha"
-            attr "stdDeviation" 5
+            attr "stdDeviation" (5 :: Double)
             attr "result" "blur"
 
-        append "feOffset" `with` do
+        void $ append "feOffset" `with` do
             attr "in" "blur"
-            attr "dx" 5
-            attr "dy" 5
+            attr "dx" (5 :: Double)
+            attr "dy" (5 :: Double)
             attr "result" "offsetBlur"
 
         append "feMerge" `with` do
 
-            append "feMergeNode" `with`
+            void $ append "feMergeNode" `with`
                 attr "in" "offsetBlur"
 
-            append "feMergeNode" `with`
+            void $ append "feMergeNode" `with`
                 attr "in" "SourceGraphic"
 
 ------------------------------------------------------------------------------

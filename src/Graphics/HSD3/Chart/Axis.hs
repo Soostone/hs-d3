@@ -28,11 +28,11 @@ yAxis =
 
         scal <- linear `with` do
             domain dom
-            range [0, 1]
+            range ([0, 1] :: [Double])
 
         ts <- withTarget scal `withT` do
             nice
-            ticks 10
+            ticks (10 :: Integer)
 
         void $ selectAll "line.x" `with`
             bind ts $ enter `with` do
@@ -41,7 +41,7 @@ yAxis =
 
                 _ <- append "text" `with` do
                     attr "x" scal
-                    attr "y" 0
+                    attr "y" (0 :: Double)
                     text $ [jmacroE|
                         (`(dom)`[1] - `(cursor)`).toFixed(1)
                     |]
@@ -50,8 +50,8 @@ yAxis =
                     attr "class" "x"
                     attr "x2" scal
                     attr "x1" scal
-                    attr "y1" 0
-                    attr "y2" 1
+                    attr "y1" (0 :: Double)
+                    attr "y2" (1 :: Double)
                     attr "stroke" "grey"
                     attr "stroke-width" "0.001"
 
@@ -66,11 +66,11 @@ xAxis =
 
         scal <- linear `with` do
             domain dom
-            range [0, 1]
+            range ([0, 1] :: [Double])
 
         ts <- withTarget scal `withT` do
             nice
-            ticks 10
+            ticks (10 :: Integer)
 
         void $ selectAll "line.y" `with`
             bind ts $ enter `with` do
@@ -78,7 +78,7 @@ xAxis =
                 jCursor .= id
 
                 _ <- append "text" `with` do
-                    attr "x" 0
+                    attr "x" (0 :: Double)
                     attr "y" scal
                     text $ [jmacroE|
                         (`(dom)`[1] - `(cursor)`).toFixed(1)
@@ -86,8 +86,8 @@ xAxis =
 
                 append "line" `with` do
                     attr "class" "y"
-                    attr "x2" 1
-                    attr "x1" 0
+                    attr "x2" (1 :: Double)
+                    attr "x1" (0 :: Double)
                     attr "y1" scal
                     attr "y2" scal
                     attr "stroke" "grey"

@@ -50,7 +50,7 @@ newVar = ("d3_" ++) . show <$> (varSeed <<%= (+1))
 
 newtype GraphT s a b =
     Graph { unGraph :: State (GraphState s) b }
-    deriving (Functor, MonadState (GraphState s), Monad)
+    deriving (Functor, Applicative, MonadState (GraphState s), Monad)
 
 --instance Monad (GraphT s a) where
 --    (Graph x) >>= f = Graph $ do

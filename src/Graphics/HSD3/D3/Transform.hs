@@ -18,6 +18,7 @@ module Graphics.HSD3.D3.Transform
 
 import Control.Monad.State
 import Data.Monoid
+import Control.Applicative
 import Language.Javascript.JMacro
 
 import Graphics.HSD3.D3.Cursor
@@ -32,7 +33,7 @@ import Graphics.HSD3.D3.Cursor
 
 newtype Transform a =
     Transform (State [JExpr] a)
-    deriving (Functor, Monad, MonadState [JExpr])
+    deriving (Functor, Applicative, Monad, MonadState [JExpr])
 
 instance ToCursor s a (Transform ()) where
     toCursor = toCursor . toJExpr

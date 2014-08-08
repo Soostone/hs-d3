@@ -30,7 +30,7 @@ anchor Bottom = do
     anchor Top
 
 anchor Top = do
-    attr "width" 1
+    attr "width" (1 :: Double)
     attr "height" cursor
 
 anchor RightSide = do
@@ -39,7 +39,7 @@ anchor RightSide = do
 
 anchor LeftSide = do
     attr "width" cursor
-    attr "height" 1
+    attr "height" (1 :: Double)
 
 -- | Given a list of `Graph`s, renders them all side-by-side
 

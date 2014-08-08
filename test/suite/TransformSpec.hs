@@ -15,14 +15,14 @@ import Utils
 testRect :: Transform () -> GraphT () a ()
 testRect tr = void $ select "body" `with`
     append "svg" `with` do
-        attr "width" 640
-        attr "height" 480
+        attr "width" (640 :: Double)
+        attr "height" (480 :: Double)
 
         append "rect" `with` do
-            attr "x" 0
-            attr "y" 0
-            attr "width" 100
-            attr "height" 100
+            attr "x" (0 :: Double)
+            attr "y" (0 :: Double)
+            attr "width" (100 :: Double)
+            attr "height" (100 :: Double)
             attr "fill" "black"
             attr "transform" tr
 
@@ -74,6 +74,3 @@ spec = describe "Shapes" $ do
                 scale 0.5 0.5
                 translate 300 300
                 rotate 20
-
-
-

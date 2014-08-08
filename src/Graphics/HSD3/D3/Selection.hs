@@ -17,7 +17,6 @@ import Language.Javascript.JMacro
 
 import Graphics.HSD3.D3.Cursor
 import Graphics.HSD3.D3.Graph
-import Graphics.HSD3.D3.JMacro
 import Graphics.HSD3.D3.Scope
 
 ------------------------------------------------------------------------------

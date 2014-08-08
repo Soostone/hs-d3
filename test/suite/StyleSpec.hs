@@ -15,19 +15,19 @@ import Utils
 testRect :: GraphT () a () -> GraphT () a ()
 testRect tr = void $ select "body" `with` append "svg" `with` do
 
-    append "defs" `with` do
-        dropShadow "test-shadow"
-        gradient Vertical "test-gradient" (RGB 200 100 0) (RGB 0 100 200)
+    _ <- append "defs" `with` do
+        _ <- dropShadow "test-shadow"
+        _ <- gradient Vertical "test-gradient" (RGB 200 100 0) (RGB 0 100 200)
         gradient Horizontal "test-gradient2" (RGB 200 100 0) (RGB 0 100 200)
 
-    attr "width" 640
-    attr "height" 480
+    attr "width" (640 :: Double)
+    attr "height" (480 :: Double)
 
     append "rect" `with` do
-        attr "x" 100
-        attr "y" 100
-        attr "width" 100
-        attr "height" 100
+        attr "x" (100 :: Double)
+        attr "y" (100 :: Double)
+        attr "width" (100 :: Double)
+        attr "height" (100 :: Double)
         attr "fill" "lightblue"
         tr
 
