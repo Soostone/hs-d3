@@ -53,12 +53,12 @@ banaaniTheme :: Theme a
 banaaniTheme = def {
 
     defs = void $ do
-        gradient Vertical "fourth" (RGB 223 214 191) (RGB 193 185 165)
-        gradient Vertical "fifth"  (RGB 150 186 175) (RGB 131 162 153)
+        void $ gradient Vertical "fourth" (RGB 223 214 191) (RGB 193 185 165)
+        void $ gradient Vertical "fifth"  (RGB 150 186 175) (RGB 131 162 153)
 
-        gradient Vertical "first"  (RGB 150 186 175) (RGB 131 162 153)
-        gradient Vertical "second" (RGB 230 101 67)  (RGB 200 88 58)
-        gradient Vertical "third"  (RGB 196 47 52)   (RGB 171 41 46),
+        void $ gradient Vertical "first"  (RGB 150 186 175) (RGB 131 162 153)
+        void $ gradient Vertical "second" (RGB 230 101 67)  (RGB 200 88 58)
+        void $ gradient Vertical "third"  (RGB 196 47 52)   (RGB 171 41 46),
 
     themeSt = def {
 
@@ -69,4 +69,3 @@ banaaniTheme = def {
         strokeWidth = Box (1 :: Integer)
     }
 }
-
