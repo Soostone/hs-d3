@@ -1,5 +1,6 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell     #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -67,6 +68,7 @@ phantomjs d3 title a b = do
     hClose handle
     phantomjs' title
 
+phantomjs' :: forall a. HStream [a] => [a] -> IO ()
 phantomjs' x = do
     let uri = fromMaybe undefined $ parseURI "http://127.0.0.1:1337"
         args = [ mkHeader HdrContentLength (show$ length x)
@@ -74,8 +76,8 @@ phantomjs' x = do
 
     result <- E.try $ simpleHTTP (Request uri POST args x) >>= getResponseBody
     case result of
-        Right z -> return ()
-        Left (err :: SomeException) -> do
+        Right _ -> return ()
+        Left (_ :: SomeException) -> do
             evalServer
             phantomjs' x
 
@@ -84,7 +86,7 @@ evalServer = do
 
     ch <- newEmptyMVar
 
-    forkOS $ do
+    _ <- forkOS $ do
 
         (Nothing, Just std_out', Just std_err', p) <-
             createProcess (proc "phantomjs" ["lib/js/render.js"]) {
@@ -96,8 +98,8 @@ evalServer = do
         hSetBuffering std_out' NoBuffering
         status <- hGetContents std_out'
         length (takeWhile (/= '\n') status) `seq` putMVar ch ()
-        errors <- hGetContents std_err'
-        putStrLn errors
+        errs <- hGetContents std_err'
+        putStrLn errs
         z <- length status `seq` waitForProcess p
         case z of
             ExitFailure _ -> error "Don't go into an infinite loop!"

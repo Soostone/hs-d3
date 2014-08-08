@@ -16,8 +16,8 @@ testRect :: GraphT () a () -> GraphT () a ()
 testRect tr = void $ select "body" `with` append "svg" `with` do
 
     append "defs" `with` do
-        dropShadow "test-shadow"
-        gradient Vertical "test-gradient" (RGB 200 100 0) (RGB 0 100 200)
+        _ <- dropShadow "test-shadow"
+        _ <- gradient Vertical "test-gradient" (RGB 200 100 0) (RGB 0 100 200)
         gradient Horizontal "test-gradient2" (RGB 200 100 0) (RGB 0 100 200)
 
     attr "width" 640

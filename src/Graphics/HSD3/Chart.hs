@@ -22,7 +22,6 @@ module Graphics.HSD3.Chart
 
 
 ------------------------------------------------------------------------------
-import Control.Lens
 import Control.Monad
 import Language.Javascript.JMacro
 ------------------------------------------------------------------------------
@@ -31,7 +30,6 @@ import Graphics.HSD3.Chart.Base
 import Graphics.HSD3.Chart.Element
 import Graphics.HSD3.Chart.Layout
 import Graphics.HSD3.D3
-import Graphics.HSD3.D3.JMacro
 import Graphics.HSD3.Theme
 ------------------------------------------------------------------------------
 
@@ -119,4 +117,3 @@ stackedBarGraph =
 gridBarGraph :: Chart [[[Double]]] ()
 gridBarGraph =
     void $ grid $ pad 0.05 barGraph
-
